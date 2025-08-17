@@ -3,7 +3,6 @@ plugins {
     `maven-publish`
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.nexus.publish)
 }
 
 private val args = object {
@@ -14,15 +13,8 @@ private val args = object {
     val organization: String = developer + "-libs"
     val organizationUrl = organization + "/" + libraryId + ".git"
     val libraryRepositoryUrl = "https://github.com/" + organizationUrl
-
     val libraryDescription: String by project
-
-    val ciTag: String? = System.getenv("GITHUB_REF_NAME")
-    val libraryVersion: String = when {
-        ciTag?.startsWith("v") == true -> ciTag.removePrefix("v")
-        else -> "0.1.0-SNAPSHOT"
-    }
-
+    val libraryVersion: String by project
     val javaVersion: Int = libs.versions.java.get().toInt()
 }
 
@@ -79,22 +71,24 @@ publishing {
             }
         }
     }
-}
 
-nexusPublishing {
     repositories {
-        sonatype {
-            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
-            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
-            username.set(System.getenv("OSSRH_USERNAME"))
-            password.set(System.getenv("OSSRH_PASSWORD"))
+        maven {
+            name = "stagingLocal"
+            url = layout.buildDirectory.dir("staging-repo").get().asFile.toURI()
         }
     }
 }
 
 signing {
-    isRequired = !version.toString().endsWith("-SNAPSHOT")
-
     useGpgCmd()
     sign(publishing.publications)
+}
+
+tasks.register<Zip>("bundleForCentral") {
+    group = "publishing"
+    dependsOn("clean", "publish")
+    from(layout.buildDirectory.dir("staging-repo"))
+    destinationDirectory.set(layout.buildDirectory.dir("bundle"))
+    archiveFileName.set("bundle.zip")
 }
