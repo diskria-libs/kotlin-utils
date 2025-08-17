@@ -3,6 +3,7 @@ plugins {
     `maven-publish`
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
+    alias(libs.plugins.dokka)
 }
 
 private val args = object {
@@ -29,6 +30,12 @@ java {
     withSourcesJar()
 }
 
+tasks.register<Jar>("javadocJar") {
+    dependsOn(tasks.dokkaJavadoc)
+    archiveClassifier.set("javadoc")
+    from(tasks.dokkaJavadoc)
+}
+
 dependencies {
     with(libs.kotlin) {
         implementation(stdlib)
@@ -42,6 +49,7 @@ publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
+            artifact(tasks.named("javadocJar"))
             artifactId = args.libraryId
 
             pom {
@@ -82,12 +90,12 @@ publishing {
 
 signing {
     useGpgCmd()
-    sign(publishing.publications)
+    sign(publishing.publications["mavenJava"])
 }
 
 tasks.register<Zip>("bundleForCentral") {
     group = "publishing"
-    dependsOn("clean", "publish")
+    dependsOn("clean", "dokkaJavadoc", "publish")
     from(layout.buildDirectory.dir("staging-repo"))
     destinationDirectory.set(layout.buildDirectory.dir("bundle"))
     archiveFileName.set("bundle.zip")
