@@ -1,46 +1,61 @@
 plugins {
+    signing
+    `maven-publish`
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.dokka)
-    `maven-publish`
-    signing
+    alias(libs.plugins.nexus.publish)
 }
 
-group = "io.github.diskria"
-version = "0.1.0"
+private val args = object {
+    val developer: String = "diskria"
+    val artifactGroup: String = "io.github." + developer
+    val libraryName: String = rootProject.name
+    val libraryId: String = libraryName.replace(" ", "-").lowercase()
+    val organization: String = developer + "-libs"
+    val organizationUrl = organization + "/" + libraryId + ".git"
+    val libraryRepositoryUrl = "https://github.com/" + organizationUrl
+
+    val libraryDescription: String by project
+
+    val ciTag: String? = System.getenv("GITHUB_REF_NAME")
+    val libraryVersion: String = when {
+        ciTag?.startsWith("v") == true -> ciTag.removePrefix("v")
+        else -> "0.1.0-SNAPSHOT"
+    }
+
+    val javaVersion: Int = libs.versions.java.get().toInt()
+}
+
+group = args.artifactGroup
+version = args.libraryVersion
 
 kotlin {
-    jvmToolchain(libs.versions.java.get().toInt())
+    jvmToolchain(args.javaVersion)
 }
 
 java {
     withSourcesJar()
 }
 
-tasks.register<Jar>("javadocJar") {
-    dependsOn(tasks.dokkaJavadoc)
-    archiveClassifier.set("javadoc")
-    from(tasks.dokkaJavadoc)
-}
-
 dependencies {
-    implementation(libs.kotlin.stdlib)
-    implementation(libs.kotlin.poet)
-    implementation(libs.kotlin.serialization)
-    implementation(libs.kotlin.reflect)
+    with(libs.kotlin) {
+        implementation(stdlib)
+        implementation(reflect)
+        implementation(poet)
+        implementation(serialization)
+    }
 }
 
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
-            artifact(tasks.named("javadocJar"))
-            artifactId = "kotlin-utils"
+            artifactId = args.libraryId
 
             pom {
-                name.set("kotlin-utils")
-                description.set("Kotlin utils")
-                url.set("https://github.com/diskria-libs/kotlin-utils")
+                name.set(args.libraryName)
+                description.set(args.libraryDescription)
+                url.set(args.libraryRepositoryUrl)
                 licenses {
                     license {
                         name.set("MIT License")
@@ -49,38 +64,37 @@ publishing {
                 }
                 developers {
                     developer {
-                        id.set("diskria")
-                        name.set("diskria")
+                        args.developer.let {
+                            id.set(it)
+                            name.set(it)
+                        }
                         email.set("diskreee@gmail.com")
                     }
                 }
                 scm {
-                    url.set("https://github.com/diskria-libs/kotlin-utils")
-                    connection.set("scm:git:https://github.com/diskria-libs/kotlin-utils.git")
-                    developerConnection.set("scm:git:git@github.com:diskria-libs/kotlin-utils.git")
+                    url.set(args.libraryRepositoryUrl)
+                    connection.set("scm:git:" + args.libraryRepositoryUrl)
+                    developerConnection.set("scm:git:git@github.com:" + args.organizationUrl)
                 }
             }
         }
     }
+}
 
+nexusPublishing {
     repositories {
-        maven {
-            name = "stagingLocal"
-            url = layout.buildDirectory.dir("staging-repo").get().asFile.toURI()
+        sonatype {
+            nexusUrl.set(uri("https://s01.oss.sonatype.org/service/local/"))
+            snapshotRepositoryUrl.set(uri("https://s01.oss.sonatype.org/content/repositories/snapshots/"))
+            username.set(System.getenv("OSSRH_USERNAME"))
+            password.set(System.getenv("OSSRH_PASSWORD"))
         }
     }
 }
 
 signing {
-    useGpgCmd()
-    sign(publishing.publications["mavenJava"])
-}
+    isRequired = !version.toString().endsWith("-SNAPSHOT")
 
-tasks.register<Zip>("bundleForCentral") {
-    group = "publishing"
-    description = "Builds, signs, publishes to local staging repo and zips it for Sonatype Central."
-    dependsOn("clean", "dokkaJavadoc", "publish")
-    from(layout.buildDirectory.dir("staging-repo"))
-    destinationDirectory.set(layout.buildDirectory.dir("bundle"))
-    archiveFileName.set("bundle.zip")
+    useGpgCmd()
+    sign(publishing.publications)
 }

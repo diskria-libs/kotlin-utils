@@ -7,10 +7,11 @@ object Constants {
 
     object File {
 
-        const val ROOT_DIRECTORY: String = Char.SLASH.toString()
-
-        val CURRENT_DIRECTORY: String by lazy { combineChars(Char.DOT, Char.SLASH) }
-        val PARENT_DIRECTORY: String by lazy { Char.DOT.repeat(2) }
+        object Path {
+            const val ROOT_DIRECTORY: String = Char.SLASH.toString()
+            val CURRENT_DIRECTORY: String = combineChars(Char.DOT, Char.SLASH)
+            val PARENT_DIRECTORY: String = Char.DOT.repeat(2) + Char.SLASH
+        }
 
         object Extension {
             const val PROPERTIES = "properties"
@@ -50,7 +51,7 @@ object Constants {
         const val TAB = '\t'
 
         const val SINGLE_QUOTE = '\''
-        const val DOUBLE_QUOTE = '\"'
+        const val DOUBLE_QUOTE = '"'
         const val EQUAL_SIGN = '='
 
         const val OPENING_ROUND_BRACKET = '('
@@ -73,7 +74,7 @@ object Constants {
     }
 
     object Web {
-        const val SCHEME_SEPARATOR = "://"
+        val SCHEME_SEPARATOR: String = Char.COLON + Char.SLASH.repeat(2)
 
         const val HTTP_SCHEME = "http"
         const val HTTPS_SCHEME = "https"

@@ -1,7 +1,7 @@
 package io.github.diskria.utils.kotlin.serialization
 
+import io.github.diskria.utils.kotlin.extensions.common.KotlinSerializer
 import io.github.diskria.utils.kotlin.extensions.common.failWithUnsupportedType
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
@@ -11,8 +11,8 @@ interface SerializableValue<Raw> {
 }
 
 inline fun <reified Raw, reified T : SerializableValue<Raw>> valueSerializer(
-    noinline fromRaw: (Raw) -> T,
-): KSerializer<T> {
+    noinline rawMapper: (Raw) -> T,
+): KotlinSerializer<T> {
 
     val kindInfo = object : PrimitiveKindInfo<Raw> {
 
@@ -29,7 +29,7 @@ inline fun <reified Raw, reified T : SerializableValue<Raw>> valueSerializer(
                 is String -> encoder.encodeString(value)
                 is Int -> encoder.encodeInt(value)
                 is Boolean -> encoder.encodeBoolean(value)
-                else -> failWithUnsupportedType(value!!::class)
+                else -> failWithUnsupportedType(value::class)
             }
         }
 
@@ -45,7 +45,7 @@ inline fun <reified Raw, reified T : SerializableValue<Raw>> valueSerializer(
     return PrimitiveValueSerializer(
         clazz = T::class,
         kindInfo = kindInfo,
-        fromRawValue = fromRaw,
+        fromRawValue = rawMapper,
         toRawValue = { serializableValue -> serializableValue.getRawValue() }
     )
 }

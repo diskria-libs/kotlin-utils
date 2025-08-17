@@ -83,7 +83,7 @@ inline fun <T> List<T>.forEachWindow(
                 }
                 previousElement
             },
-            get(index),
+            element,
             {
                 if (!isNextComputed) {
                     nextElement = getOrNull(index.inc())
@@ -94,3 +94,16 @@ inline fun <T> List<T>.forEachWindow(
         )
     }
 }
+
+inline fun <T, R> List<T>.foldChainWindow(
+    initial: R,
+    crossinline action: R.(previous: () -> T?, current: T, next: () -> T?) -> Unit
+): R =
+    withIndex().foldChain(initial) { (index, element) ->
+        action(
+            { getOrNull(index.dec()) },
+            element,
+            { getOrNull(index.inc()) }
+        )
+        this
+    }

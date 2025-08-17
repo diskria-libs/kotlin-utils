@@ -1,8 +1,7 @@
-rootProject.name = "kotlin-utils"
+rootProject.name = providers.gradleProperty("libraryName").get()
 
 fun RepositoryHandler.attachCommonRepositories() {
     mavenCentral()
-    google()
 }
 
 fun RepositoryHandler.attachPluginRepositories() {
@@ -15,9 +14,11 @@ fun setupRepositories() {
         attachCommonRepositories()
     }
 
-    pluginManagement.repositories {
-        attachCommonRepositories()
-        attachPluginRepositories()
+    pluginManagement {
+        repositories {
+            attachCommonRepositories()
+            attachPluginRepositories()
+        }
     }
 }
 

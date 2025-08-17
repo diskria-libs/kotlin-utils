@@ -1,8 +1,8 @@
 package io.github.diskria.utils.kotlin.serialization
 
 import io.github.diskria.utils.kotlin.extensions.common.KotlinClass
+import io.github.diskria.utils.kotlin.extensions.common.KotlinSerializer
 import io.github.diskria.utils.kotlin.extensions.common.failWithUnsupportedType
-import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveSerialDescriptor
 import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
@@ -13,7 +13,7 @@ open class PrimitiveValueSerializer<Raw, T : Any>(
     private val kindInfo: PrimitiveKindInfo<Raw>,
     private val fromRawValue: (Raw) -> T,
     private val toRawValue: (T) -> Raw,
-) : KSerializer<T> {
+) : KotlinSerializer<T> {
 
     override val descriptor: SerialDescriptor =
         PrimitiveSerialDescriptor(

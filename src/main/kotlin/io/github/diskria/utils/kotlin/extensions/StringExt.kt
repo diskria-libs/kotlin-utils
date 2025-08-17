@@ -3,11 +3,16 @@ package io.github.diskria.utils.kotlin.extensions
 import io.github.diskria.utils.kotlin.BracketsType
 import io.github.diskria.utils.kotlin.Constants
 import io.github.diskria.utils.kotlin.EscapeMode
+import io.github.diskria.utils.kotlin.Semver
 import io.github.diskria.utils.kotlin.delegates.toAutoNamedPair
 import io.github.diskria.utils.kotlin.extensions.common.failWithDetails
 import io.github.diskria.utils.kotlin.extensions.common.failWithInvalidValue
+import io.github.diskria.utils.kotlin.extensions.common.modifyIf
 import io.github.diskria.utils.kotlin.extensions.common.modifyUnless
+import io.github.diskria.utils.kotlin.extensions.generics.toFlatString
 import io.github.diskria.utils.kotlin.extensions.primitives.escaped
+import io.github.diskria.utils.kotlin.words.StringCase
+import io.github.diskria.utils.kotlin.words.Word
 import java.io.File
 
 inline fun <reified T> String.toTypedOrThrow(): T =
@@ -17,22 +22,19 @@ inline fun <reified T> String.toTypedOrThrow(): T =
         listOf(string, type)
     }
 
-inline fun String?.ifNullOrEmpty(
-    crossinline fallback: () -> String,
-): String =
+inline fun String?.ifNullOrEmpty(crossinline fallback: () -> String): String =
     if (isNullOrEmpty()) fallback()
     else this
 
-inline fun Sequence<String>.dropUntil(
-    crossinline predicate: (String) -> Boolean
-): Sequence<String> =
+inline fun Sequence<String>.dropUntil(crossinline predicate: (String) -> Boolean): Sequence<String> =
     dropWhile { !predicate(it) }
 
 fun Sequence<String>.skipUntilAfter(marker: String): Sequence<String> =
     dropUntil { marker in it }.drop(1)
 
-fun String.capitalizeFirst(): String =
-    lowercase().replaceFirstChar { it.uppercaseChar() }
+fun String.capitalizeFirstChar(lowerRest: Boolean = false): String =
+    replaceFirstChar { if (it.isLowerCase()) it.titlecaseChar() else it }
+        .modifyIf(lowerRest) { it.first() + it.drop(1).lowercase() }
 
 fun String.equalsIgnoreCase(other: String?): Boolean =
     equals(other, ignoreCase = true)
@@ -48,15 +50,15 @@ fun String.splitBySpace(): List<String> =
 
 fun String.invertCase(): String =
     map { char ->
-        if (char.isLowerCase()) char.uppercaseChar()
+        if (char.isLowerCase()) char.titlecase()
         else char.lowercaseChar()
-    }.toString()
+    }.toFlatString()
 
-fun String.wrap(char: Char): String =
-    char + this + char
+fun String.wrap(char: Char, count: Int = 1): String =
+    wrap(char.toString(), count)
 
-fun String.wrap(string: String): String =
-    string + this + string
+fun String.wrap(string: String, count: Int = 1): String =
+    string.repeat(count).let { surround(it, it) }
 
 fun String.wrapWithBrackets(
     bracketsType: BracketsType?,
@@ -66,22 +68,20 @@ fun String.wrapWithBrackets(
     if (bracketsType == null) {
         return this
     }
-    val (openingSymbol, closingSymbol) = if (escapeMode != null) {
-        bracketsType.openingChar.escaped(escapeMode) to bracketsType.closingChar.escaped(escapeMode)
-    } else {
-        bracketsType.openingChar.toString() to bracketsType.closingChar.toString()
-    }
-    return openingSymbol.repeat(count) + this + closingSymbol.repeat(count)
+    return ensureSurrounding(
+        prefix = bracketsType.openingChar.escaped(escapeMode).repeat(count),
+        suffix = bracketsType.closingChar.escaped(escapeMode).repeat(count)
+    )
 }
 
-fun String.wrapWithSingleQuote(): String =
-    wrap(Constants.Char.SINGLE_QUOTE)
+fun String.wrapWithSingleQuote(count: Int = 1): String =
+    wrap(Constants.Char.SINGLE_QUOTE, count)
 
-fun String.wrapWithDoubleQuote(): String =
-    wrap(Constants.Char.DOUBLE_QUOTE)
+fun String.wrapWithDoubleQuote(count: Int = 1): String =
+    wrap(Constants.Char.DOUBLE_QUOTE, count)
 
-fun String.wrapWithSpace(): String =
-    wrap(Constants.Char.SPACE)
+fun String.wrapWithSpace(count: Int = 1): String =
+    wrap(Constants.Char.SPACE, count)
 
 fun String.replace(oldValue: Char, newValue: String): String =
     replace(oldValue.toString(), newValue)
@@ -90,7 +90,7 @@ fun String.replace(regex: Regex, char: Char): String =
     replace(regex, char.toString())
 
 fun String.appendPackageName(packageName: String): String =
-    this + packageName.ensurePrefix(Constants.Char.DOT)
+    appendSuffix(packageName.ensurePrefix(Constants.Char.DOT))
 
 fun String.ensurePrefix(prefix: Char): String =
     ensurePrefix(prefix.toString())
@@ -99,13 +99,22 @@ fun String.ensureSuffix(suffix: Char): String =
     ensureSuffix(suffix.toString())
 
 fun String.ensurePrefix(prefix: String): String =
-    modifyUnless(startsWith(prefix)) { prefix + this }
+    modifyUnless(startsWith(prefix)) { appendPrefix(prefix) }
 
 fun String.ensureSuffix(suffix: String): String =
-    modifyUnless(endsWith(suffix)) { this + suffix }
+    modifyUnless(endsWith(suffix)) { appendSuffix(suffix) }
 
 fun String.ensureSurrounding(prefix: String, suffix: String): String =
     ensurePrefix(prefix).ensureSuffix(suffix)
+
+fun String.appendPrefix(prefix: String): String =
+    prefix + this
+
+fun String.appendSuffix(suffix: String): String =
+    this + suffix
+
+fun String.surround(prefix: String, suffix: String): String =
+    appendPrefix(prefix).appendSuffix(suffix)
 
 fun String.toFile(): File =
     File(this)
@@ -162,3 +171,14 @@ fun String.toCharOrNull(): Char? =
 
 fun String.toBooleanOrNull(): Boolean? =
     toBooleanStrictOrNull()
+
+fun String.toSemver(): Semver =
+    Semver.of(this)
+
+fun String.toWord(): Word = Word(this)
+
+fun String.setCase(from: StringCase, to: StringCase): String =
+    to.joinWords(splitWords(from))
+
+fun String.splitWords(case: StringCase): List<Word> =
+    case.splitWords(this)
