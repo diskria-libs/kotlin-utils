@@ -53,7 +53,7 @@ publishing {
             artifactId = args.libraryId
 
             pom {
-                name.set(args.libraryName)
+                name.set(args.libraryId)
                 description.set(args.libraryDescription)
                 url.set(args.libraryRepositoryUrl)
                 licenses {
