@@ -53,8 +53,10 @@ kotlin {
 
 dependencies {
     implementation(libs.kotlin.reflect)
-    implementation(libs.kotlin.poet)
     implementation(libs.kotlin.serialization)
+
+    implementation(libs.kotlin.poet)
+    implementation(libs.ktor)
 }
 
 tasks.named<Jar>("jar") {

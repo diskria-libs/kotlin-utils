@@ -4,6 +4,7 @@ import io.github.diskria.utils.kotlin.Constants
 import io.github.diskria.utils.kotlin.extensions.ensurePrefix
 import io.github.diskria.utils.kotlin.extensions.generics.toFlatString
 import io.github.diskria.utils.kotlin.extensions.primitives.toUnsignedLong
+import io.ktor.http.*
 import java.util.*
 
 infix fun <A, B, C> Pair<A, B>.to(third: C): Triple<A, B, C> =
@@ -42,6 +43,17 @@ fun buildString(vararg parts: Any?): String =
 
 fun buildEmail(localPart: String, domain: String): String =
     buildString(localPart, Constants.Char.AT, domain)
+
+fun buildUrl(
+    host: String,
+    protocol: URLProtocol = URLProtocol.HTTPS,
+    builder: URLBuilder.() -> Unit = {},
+): String =
+    URLBuilder().apply {
+        this.protocol = protocol
+        this.host = host
+        builder()
+    }.buildString()
 
 fun KotlinClass<*>.primitiveTypeNameOrNull(): String? =
     javaPrimitiveType?.name

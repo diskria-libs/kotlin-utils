@@ -1,9 +1,13 @@
 [versions]
 gradle = "9.0.0"
+
 java = "21"
+
 kotlin = "2.2.0"
 kotlin-poet = "2.2.0"
 kotlin-serialization = "1.9.0"
+
+ktor = "3.2.3"
 
 [plugins]
 java = { id = "java" }
@@ -16,3 +20,4 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 kotlin-poet = { group = "com.squareup", name = "kotlinpoet", version.ref = "kotlin-poet" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+ktor = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
