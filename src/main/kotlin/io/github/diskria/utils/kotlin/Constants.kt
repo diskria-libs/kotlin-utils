@@ -46,6 +46,8 @@ object Constants {
         const val EXCLAMATION_MARK = '!'
         const val PLUS = '+'
         const val ASTERISK = '*'
+        const val AT = '@'
+        const val PERCENT_SIGN = '%'
         const val HASH = '#'
         const val NEW_LINE = '\n'
         const val TAB = '\t'

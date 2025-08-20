@@ -15,11 +15,7 @@ inline fun <T> tryCatch(catchErrors: Boolean = true, block: () -> T): Boolean =
 inline fun <T : Any> tryCatchOr(fallback: T, catchErrors: Boolean = true, block: () -> T?): T =
     tryCatchOrNull(catchErrors, block) ?: fallback
 
-inline fun <T : Any> tryCatchOrElse(
-    catchErrors: Boolean = true,
-    fallback: () -> T,
-    block: () -> T?
-): T =
+inline fun <T : Any> tryCatchOrElse(catchErrors: Boolean = true, fallback: () -> T, block: () -> T?): T =
     tryCatchOrNull(catchErrors, block) ?: fallback()
 
 inline fun <T> tryCatchOrNull(catchErrors: Boolean = true, block: () -> T?): T? =
@@ -33,28 +29,22 @@ inline fun <T> tryCatchOrNull(catchErrors: Boolean = true, block: () -> T?): T? 
 fun packIntsToLong(highInt: Int, lowInt: Int): Long =
     highInt.toUnsignedLong().shl(Int.SIZE_BITS).or(lowInt.toUnsignedLong())
 
-fun generateUuid(): String =
+fun generateUUID(): String =
     UUID.randomUUID().toString()
 
 fun fileName(name: String, vararg extensions: String): String =
     name + extensions.asIterable().toFlatString { it.ensurePrefix(Constants.Char.DOT) }
 
-fun KotlinClass<*>.primitiveTypeNameOrNull(): String? =
-    javaPrimitiveType?.name
-
-fun Any.toPrimitiveClassOrNull(): KotlinClass<*>? =
-    when (this) {
-        is Boolean -> Boolean::class
-        is Int -> Int::class
-        is Long -> Long::class
-        is Float -> Float::class
-        is Double -> Double::class
-        is Char -> Char::class
-        else -> null
+fun buildString(vararg parts: Any?): String =
+    buildString {
+        append(*parts)
     }
 
-fun Any.primitiveTypeNameOrNull(): String? =
-    toPrimitiveClassOrNull()?.primitiveTypeNameOrNull()
+fun buildEmail(localPart: String, domain: String): String =
+    buildString(localPart, Constants.Char.AT, domain)
+
+fun KotlinClass<*>.primitiveTypeNameOrNull(): String? =
+    javaPrimitiveType?.name
 
 fun nowDate(): Date =
     Date()

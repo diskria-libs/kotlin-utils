@@ -67,7 +67,11 @@ fun <T> Iterable<T>.indexOfFirstOrNull(predicate: (T) -> Boolean): Int? =
     indexOfFirst { predicate(it) }.nonNegativeOrNull()
 
 inline fun <T> List<T>.forEachWindow(
-    crossinline action: (prev: () -> T?, current: T, next: () -> T?) -> Unit
+    crossinline action: (
+        prev: () -> T?,
+        current: T,
+        next: () -> T?
+    ) -> Unit
 ) {
     forEachIndexed { index, element ->
         var previousElement: T? = null
@@ -97,7 +101,11 @@ inline fun <T> List<T>.forEachWindow(
 
 inline fun <T, R> List<T>.foldChainWindow(
     initial: R,
-    crossinline action: R.(previous: () -> T?, current: T, next: () -> T?) -> Unit
+    crossinline action: R.(
+        previous: () -> T?,
+        current: T,
+        next: () -> T?
+    ) -> Unit
 ): R =
     withIndex().foldChain(initial) { (index, element) ->
         action(

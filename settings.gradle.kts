@@ -1,4 +1,4 @@
-rootProject.name = providers.gradleProperty("libraryName").get()
+rootProject.name = providers.gradleProperty("name").get()
 
 fun RepositoryHandler.attachCommonRepositories() {
     mavenCentral()

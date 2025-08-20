@@ -31,3 +31,17 @@ fun <T> T.isNoneOf(vararg candidates: T): Boolean =
 
 inline fun <T, R> T.mapIfAnyOf(vararg candidates: T, elseValue: R, block: (T) -> R): R =
     mapIf(isAnyOf(*candidates), elseValue, block)
+
+fun Any.toPrimitiveClassOrNull(): KotlinClass<*>? =
+    when (this) {
+        is Boolean -> Boolean::class
+        is Int -> Int::class
+        is Long -> Long::class
+        is Float -> Float::class
+        is Double -> Double::class
+        is Char -> Char::class
+        else -> null
+    }
+
+fun Any.primitiveTypeNameOrNull(): String? =
+    toPrimitiveClassOrNull()?.primitiveTypeNameOrNull()

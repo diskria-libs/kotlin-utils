@@ -1,47 +1,70 @@
+import java.nio.charset.StandardCharsets
+
 plugins {
-    signing
-    `maven-publish`
+    alias(libs.plugins.java)
+
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.dokka)
+
+    alias(libs.plugins.maven.publish)
+    alias(libs.plugins.signing)
 }
 
-private val args = object {
-    val developer: String = "diskria"
-    val artifactGroup: String = "io.github." + developer
-    val libraryName: String = rootProject.name
-    val libraryId: String = libraryName.replace(" ", "-").lowercase()
-    val organization: String = developer + "-libs"
-    val organizationUrl = organization + "/" + libraryId + ".git"
-    val libraryRepositoryUrl = "https://github.com/" + organizationUrl
-    val libraryDescription: String by project
-    val libraryVersion: String by project
-    val javaVersion: Int = libs.versions.java.get().toInt()
+val gitName: String = "git"
+val githubHost: String = "github.com"
+
+private val developer = object {
+    val name: String = "diskria"
+    val email: String = "$name@proton.me"
+    val namespace: String = "io.github.$name"
 }
 
-group = args.artifactGroup
-version = args.libraryVersion
-
-kotlin {
-    jvmToolchain(args.javaVersion)
+private val library = object {
+    val name: String = rootProject.name
+    val description: String by project
+    val version: String by project
+    val id: String = name.replace(" ", "-").lowercase()
 }
+
+private val repo = object {
+    val organization = "$developer-libs"
+    val path: String = "$organization/${library.id}"
+    val url: String = "https://$githubHost/$path"
+}
+
+val javaVersion: Int = libs.versions.java.get().toInt()
+
+group = developer.namespace
+version = library.version
 
 java {
+    JavaVersion.toVersion(javaVersion).let {
+        sourceCompatibility = it
+        targetCompatibility = it
+    }
+
     withSourcesJar()
+    withJavadocJar()
 }
 
-tasks.register<Jar>("javadocJar") {
-    dependsOn(tasks.dokkaJavadoc)
-    archiveClassifier.set("javadoc")
-    from(tasks.dokkaJavadoc)
+kotlin {
+    jvmToolchain(javaVersion)
 }
 
 dependencies {
-    with(libs.kotlin) {
-        implementation(stdlib)
-        implementation(reflect)
-        implementation(poet)
-        implementation(serialization)
+    implementation(libs.kotlin.reflect)
+    implementation(libs.kotlin.poet)
+    implementation(libs.kotlin.serialization)
+}
+
+tasks.named<Jar>("jar") {
+    from("LICENSE") { rename { "${it}_${library.name}" } }
+}
+
+tasks.withType<JavaCompile>().configureEach {
+    with(options) {
+        encoding = StandardCharsets.UTF_8.name()
+        release.set(javaVersion)
     }
 }
 
@@ -50,12 +73,12 @@ publishing {
         create<MavenPublication>("mavenJava") {
             from(components["java"])
             artifact(tasks.named("javadocJar"))
-            artifactId = args.libraryId
+            artifactId = library.id
 
             pom {
-                name.set(args.libraryId)
-                description.set(args.libraryDescription)
-                url.set(args.libraryRepositoryUrl)
+                name.set(library.id)
+                description.set(library.description)
+                url.set(repo.url)
                 licenses {
                     license {
                         name.set("MIT License")
@@ -64,17 +87,30 @@ publishing {
                 }
                 developers {
                     developer {
-                        args.developer.let {
+                        developer.name.let {
                             id.set(it)
                             name.set(it)
                         }
-                        email.set("diskreee@gmail.com")
+                        email.set(developer.email)
                     }
                 }
                 scm {
-                    url.set(args.libraryRepositoryUrl)
-                    connection.set("scm:git:" + args.libraryRepositoryUrl)
-                    developerConnection.set("scm:git:git@github.com:" + args.organizationUrl)
+                    val separator = ":"
+                    connection.set(
+                        buildString {
+                            append("scm").append(separator)
+                            append(gitName).append(separator)
+                            append(repo.url).append(".").append(gitName)
+                        }
+                    )
+                    developerConnection.set(
+                        buildString {
+                            append("scm").append(separator)
+                            append(gitName).append(separator)
+                            append("git@").append(githubHost).append(separator)
+                            append(repo.path).append(".").append(gitName)
+                        }
+                    )
                 }
             }
         }
@@ -95,7 +131,7 @@ signing {
 
 tasks.register<Zip>("bundleForCentral") {
     group = "publishing"
-    dependsOn("clean", "dokkaJavadoc", "publish")
+    dependsOn("clean", "publish")
     from(layout.buildDirectory.dir("staging-repo"))
     destinationDirectory.set(layout.buildDirectory.dir("bundle"))
     archiveFileName.set("bundle.zip")

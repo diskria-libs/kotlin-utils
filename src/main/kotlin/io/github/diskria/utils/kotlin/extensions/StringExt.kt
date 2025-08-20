@@ -4,7 +4,7 @@ import io.github.diskria.utils.kotlin.BracketsType
 import io.github.diskria.utils.kotlin.Constants
 import io.github.diskria.utils.kotlin.EscapeMode
 import io.github.diskria.utils.kotlin.Semver
-import io.github.diskria.utils.kotlin.delegates.toAutoNamedPair
+import io.github.diskria.utils.kotlin.delegates.toAutoNamedProperty
 import io.github.diskria.utils.kotlin.extensions.common.failWithDetails
 import io.github.diskria.utils.kotlin.extensions.common.failWithInvalidValue
 import io.github.diskria.utils.kotlin.extensions.common.modifyIf
@@ -17,8 +17,8 @@ import java.io.File
 
 inline fun <reified T> String.toTypedOrThrow(): T =
     toTypedOrNull() ?: failWithDetails {
-        val string by this.toAutoNamedPair()
-        val type by T::class.toAutoNamedPair()
+        val string by this.toAutoNamedProperty()
+        val type by T::class.toAutoNamedProperty()
         listOf(string, type)
     }
 
@@ -49,10 +49,10 @@ fun String.splitBySpace(): List<String> =
     split(Constants.Char.SPACE)
 
 fun String.invertCase(): String =
-    map { char ->
+    rebuild { char ->
         if (char.isLowerCase()) char.titlecase()
         else char.lowercaseChar()
-    }.toFlatString()
+    }
 
 fun String.wrap(char: Char, count: Int = 1): String =
     wrap(char.toString(), count)
@@ -178,7 +178,32 @@ fun String.toSemver(): Semver =
 fun String.toWord(): Word = Word(this)
 
 fun String.setCase(from: StringCase, to: StringCase): String =
-    to.joinWords(splitWords(from))
+    if (from == to) this
+    else to.joinWords(splitWords(from))
 
 fun String.splitWords(case: StringCase): List<Word> =
     case.splitWords(this)
+
+fun <R> String.rebuild(transform: (Char) -> R): String =
+    map(transform).toFlatString()
+
+private val canonicalAlternatives: Map<Char, CharArray> by lazy {
+    mapOf(
+        Constants.Char.HYPHEN to charArrayOf(
+            '\u2010',
+            '\u2011',
+            '\u2012',
+            '\u2013',
+            '\u2014',
+            '\u2212',
+        )
+    )
+}
+
+fun String.normalizeCharsToCanonical(canonical: Char): String {
+    val alternatives = canonicalAlternatives[canonical] ?: failWithInvalidValue(canonical)
+    return rebuild { char ->
+        if (char in alternatives) canonical
+        else char
+    }
+}
