@@ -71,9 +71,9 @@ tasks.withType<JavaCompile>().configureEach {
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
-            from(components["java"])
-            artifact(tasks.named("javadocJar"))
             artifactId = library.id
+
+            from(components["java"])
 
             pom {
                 name.set(library.id)
