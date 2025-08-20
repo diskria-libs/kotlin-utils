@@ -95,6 +95,7 @@ publishing {
                     }
                 }
                 scm {
+                    url.set(repo.url)
                     val separator = ":"
                     connection.set(
                         buildString {
