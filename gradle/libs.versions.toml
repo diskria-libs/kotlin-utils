@@ -1,6 +1,6 @@
 [versions]
 gradle = "9.0.0"
-organizations = "0.1.9"
+organizations = "0.2.0"
 
 java = "21"
 
