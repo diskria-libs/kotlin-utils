@@ -13,7 +13,7 @@ val organizationsPluginLocalPath = EnvironmentVariables.getValue(EnvironmentVari
 val githubUsername = EnvironmentVariables.getValue(EnvironmentVariables.GITHUB_USERNAME)
 val githubPackagesToken = EnvironmentVariables.getValue(EnvironmentVariables.GITHUB_PACKAGES_TOKEN)
 
-fun RepositoryHandler.attachCommonRepositories() {
+fun RepositoryHandler.commonRepositories() {
     mavenCentral()
 }
 
@@ -21,8 +21,7 @@ fun RepositoryHandler.attachGithubOrganizationsMaven() {
     if (organizationsPluginLocalPath != null || githubPackagesToken == null || githubUsername == null) {
         return
     }
-    maven {
-        url = uri("https://maven.pkg.github.com/$githubUsername/organizations")
+    maven("https://maven.pkg.github.com/$githubUsername/organizations") {
         credentials {
             username = githubUsername
             password = githubPackagesToken
@@ -38,11 +37,11 @@ fun RepositoryHandler.attachPluginRepositories() {
 @Suppress("UnstableApiUsage")
 fun setupRepositories() {
     dependencyResolutionManagement.repositories {
-        attachCommonRepositories()
+        commonRepositories()
     }
 
     pluginManagement.repositories {
-        attachCommonRepositories()
+        commonRepositories()
         attachPluginRepositories()
     }
 }
