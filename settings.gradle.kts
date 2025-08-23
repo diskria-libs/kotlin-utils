@@ -50,17 +50,10 @@ fun setupRepositories() {
 setupRepositories()
 
 when {
-    organizationsPluginLocalPath != null -> includeBuild(organizationsPluginLocalPath)
-    githubPackagesToken == null && githubUsername == null -> error(
-        """
-        Missing configuration for plugin resolution.
-    
-        Either:
-          - Provide ${EnvironmentVariables.GITHUB_PACKAGES_TOKEN} and ${EnvironmentVariables.GITHUB_USERNAME} 
-            to download the plugin from GitHub Packages
-          - Or clone the plugin locally and set ${EnvironmentVariables.GITHUB_ORGANIZATIONS_PLUGIN_PATH} to its absolute path
-        """.trimIndent()
-    )
+    organizationsPluginLocalPath != null -> {
+        includeBuild(organizationsPluginLocalPath)
+        pluginManagement.includeBuild(organizationsPluginLocalPath)
+    }
 
     githubPackagesToken == null || githubUsername == null -> error(
         """

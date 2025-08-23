@@ -1,22 +1,21 @@
 [versions]
 gradle = "9.0.0"
-organizations = "0.1.5"
+organizations = "0.1.9"
 
 java = "21"
 
 kotlin = "2.2.0"
-kotlin-poet = "2.2.0"
 kotlin-serialization = "1.9.0"
-
+kotlin-poet = "2.2.0"
 ktor = "3.2.3"
 
 [plugins]
-organizations = { id = "io.github.diskria.organizations", version.ref = "organizations" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+organizations = { id = "io.github.diskria.organizations", version.ref = "organizations" }
 
 [libraries]
 kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization" }
-kotlin-poet = { group = "com.squareup", name = "kotlinpoet", version.ref = "kotlin-poet" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
+kotlin-poet = { group = "com.squareup", name = "kotlinpoet", version.ref = "kotlin-poet" }
 ktor-http = { group = "io.ktor", name = "ktor-http", version.ref = "ktor" }
