@@ -13,8 +13,8 @@ data class Semver(val major: Int, val minor: Int, val patch: Int): Comparable<Se
         listOf(major, minor, patch).joinToString(Constants.Char.DOT)
 
     companion object {
-        fun of(versionName: String): Semver {
-            val (major, minor, patch) = versionName
+        fun of(version: String): Semver {
+            val (major, minor, patch) = version
                 .splitToTriple(Constants.Char.DOT)
                 .toList()
                 .map { it?.toIntOrNull().orZero() }

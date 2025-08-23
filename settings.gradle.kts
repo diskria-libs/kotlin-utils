@@ -1,4 +1,4 @@
-rootProject.name = providers.gradleProperty("name").get()
+rootProject.name = providers.gradleProperty("projectName").get()
 
 fun RepositoryHandler.attachCommonRepositories() {
     mavenCentral()
@@ -15,6 +15,7 @@ fun setupRepositories() {
     }
 
     pluginManagement {
+        includeBuild("../../../organizations-gradle-plugin")
         repositories {
             attachCommonRepositories()
             attachPluginRepositories()

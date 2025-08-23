@@ -44,16 +44,23 @@ fun buildString(vararg parts: Any?): String =
 fun buildEmail(localPart: String, domain: String): String =
     buildString(localPart, Constants.Char.AT, domain)
 
+fun buildUrl(builder: URLBuilder.() -> Unit): String =
+    URLBuilder().apply(builder).buildString()
+
 fun buildUrl(
-    host: String,
-    protocol: URLProtocol = URLProtocol.HTTPS,
+    host: String? = null,
+    protocol: URLProtocol? = null,
     builder: URLBuilder.() -> Unit = {},
 ): String =
-    URLBuilder().apply {
-        this.protocol = protocol
-        this.host = host
+    buildUrl {
+        if (protocol != null) {
+            this.protocol = protocol
+        }
+        if (host != null) {
+            this.host = host
+        }
         builder()
-    }.buildString()
+    }
 
 fun KotlinClass<*>.primitiveTypeNameOrNull(): String? =
     javaPrimitiveType?.name
