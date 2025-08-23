@@ -4,28 +4,25 @@ import io.github.diskria.organizations.extensions.*
 import io.github.diskria.organizations.licenses.LicenseType
 
 plugins {
-    alias(libs.plugins.java)
-
+    java
+    `maven-publish`
+    signing
+    alias(libs.plugins.organizations)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
-
-    alias(libs.plugins.maven.publish)
-    alias(libs.plugins.signing)
-
-    id("io.github.diskria.organizations") version "0.1.5"
 }
 
-val metadata = buildMetadata<LibraryMetadata>(LibrariesOrganization)
+val projectMetadata = buildMetadata<LibraryMetadata>(LibrariesOrganization)
 
-group = metadata.owner.namespace
-version = metadata.version
+group = projectMetadata.owner.namespace
+version = projectMetadata.version
 
 dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.kotlin.serialization)
 
     implementation(libs.kotlin.poet)
-    implementation(libs.ktor)
+    implementation(libs.ktor.http)
 }
 
 val javaVersion: Int = libs.versions.java.get().toInt()
@@ -34,26 +31,28 @@ kotlin.jvmToolchain(javaVersion)
 
 applyJavaUTF8Encoding()
 
-includeLicenseInJar(metadata)
+includeLicenseInJar(projectMetadata)
 
 java {
     withSourcesJar()
     withJavadocJar()
 }
 
-val mavenJava = publishing.publications.create<MavenPublication>(metadata.slug) {
-    artifactId = metadata.slug
+val mavenJava = publishing.publications.create<MavenPublication>(projectMetadata.slug) {
+    artifactId = projectMetadata.slug
     from(components["java"])
     pom {
-        name.set(metadata.name)
-        description.set(metadata.description)
-        url.set(metadata.owner.getRepositoryUrl(metadata.slug))
+        name.set(projectMetadata.name)
+        description.set(projectMetadata.description)
+        url.set(projectMetadata.owner.getRepositoryUrl(projectMetadata.slug))
         applyLicense(LicenseType.MIT)
-        applyDeveloper(metadata.owner)
+        applyDeveloper(projectMetadata.owner)
         scm {
-            url.set(metadata.owner.getRepositoryUrl(metadata.slug))
-            connection.set("scm:git:${metadata.owner.getRepositoryUrl(metadata.slug)}.git")
-            developerConnection.set("scm:git:git@github.com:${metadata.owner.getRepositoryPath(metadata.slug)}.git")
+            url.set(projectMetadata.owner.getRepositoryUrl(projectMetadata.slug))
+            connection.set("scm:git:${projectMetadata.owner.getRepositoryUrl(projectMetadata.slug)}.git")
+            developerConnection.set(
+                "scm:git:git@github.com:${projectMetadata.owner.getRepositoryPath(projectMetadata.slug)}.git"
+            )
         }
     }
 }
@@ -65,12 +64,4 @@ publishing.repositories.maven {
 signing {
     useGpgCmd()
     sign(mavenJava)
-}
-
-tasks.register<Zip>("bundleForCentral") {
-    group = "publishing"
-    dependsOn("clean", "publish")
-    from(layout.buildDirectory.dir("staging-repo"))
-    destinationDirectory.set(layout.buildDirectory.dir("bundle"))
-    archiveFileName.set("bundle.zip")
 }
