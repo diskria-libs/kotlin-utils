@@ -1,10 +1,10 @@
 [versions]
 gradle = "9.0.0"
-organizations = "0.2.0"
+projektor = "1.0.0"
 
 java = "21"
 
-kotlin = "2.2.0"
+kotlin = "2.0.0"
 kotlin-serialization = "1.9.0"
 kotlin-poet = "2.2.0"
 ktor = "3.2.3"
@@ -12,7 +12,7 @@ ktor = "3.2.3"
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
-organizations = { id = "io.github.diskria.organizations", version.ref = "organizations" }
+projektor = { id = "io.github.diskria.projektor", version.ref = "projektor" }
 
 [libraries]
 kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization" }

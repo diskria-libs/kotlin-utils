@@ -16,7 +16,7 @@ fun initializeFirst(): Nothing =
     error("Not initialized")
 
 fun failWithWrongUsage(useInsteadThis: String): Nothing =
-    error("Use $useInsteadThis instead this")
+    error("Use ${useInsteadThis.wrapWithSingleQuote()} instead this")
 
 fun failWithUnsupportedType(clazz: KotlinClass<*>): Nothing =
     failWithDetails("Unsupported type") {

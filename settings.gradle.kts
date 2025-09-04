@@ -3,13 +3,13 @@ rootProject.name = providers.gradleProperty("projectName").get()
 object EnvironmentVariables {
     const val GITHUB_USERNAME = "GITHUB_USERNAME"
     const val GITHUB_PACKAGES_TOKEN = "GITHUB_PACKAGES_TOKEN"
-    const val GITHUB_ORGANIZATIONS_PLUGIN_PATH = "GITHUB_ORGANIZATIONS_PLUGIN_PATH"
+    const val PROJEKTOR_PLUGIN_PATH = "PROJEKTOR_PLUGIN_PATH"
 
     fun getValue(name: String): String? =
         System.getenv(name)?.takeIf { it.isNotBlank() }
 }
 
-val organizationsPluginLocalPath = EnvironmentVariables.getValue(EnvironmentVariables.GITHUB_ORGANIZATIONS_PLUGIN_PATH)
+val projektorPluginLocalPath = EnvironmentVariables.getValue(EnvironmentVariables.PROJEKTOR_PLUGIN_PATH)
 val githubUsername = EnvironmentVariables.getValue(EnvironmentVariables.GITHUB_USERNAME)
 val githubPackagesToken = EnvironmentVariables.getValue(EnvironmentVariables.GITHUB_PACKAGES_TOKEN)
 
@@ -17,11 +17,11 @@ fun RepositoryHandler.commonRepositories() {
     mavenCentral()
 }
 
-fun RepositoryHandler.attachGithubOrganizationsMaven() {
-    if (organizationsPluginLocalPath != null || githubPackagesToken == null || githubUsername == null) {
+fun RepositoryHandler.attachProjektorGradlePluginMaven() {
+    if (projektorPluginLocalPath != null || githubPackagesToken == null || githubUsername == null) {
         return
     }
-    maven("https://maven.pkg.github.com/$githubUsername/organizations") {
+    maven("https://maven.pkg.github.com/$githubUsername/projektor") {
         credentials {
             username = githubUsername
             password = githubPackagesToken
@@ -31,7 +31,7 @@ fun RepositoryHandler.attachGithubOrganizationsMaven() {
 
 fun RepositoryHandler.attachPluginRepositories() {
     gradlePluginPortal()
-    attachGithubOrganizationsMaven()
+    attachProjektorGradlePluginMaven()
 }
 
 @Suppress("UnstableApiUsage")
@@ -49,9 +49,9 @@ fun setupRepositories() {
 setupRepositories()
 
 when {
-    organizationsPluginLocalPath != null -> {
-        includeBuild(organizationsPluginLocalPath)
-        pluginManagement.includeBuild(organizationsPluginLocalPath)
+    projektorPluginLocalPath != null -> {
+        includeBuild(projektorPluginLocalPath)
+        pluginManagement.includeBuild(projektorPluginLocalPath)
     }
 
     githubPackagesToken == null || githubUsername == null -> error(

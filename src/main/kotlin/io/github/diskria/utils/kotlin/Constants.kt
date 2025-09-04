@@ -15,46 +15,52 @@ object Constants {
 
         object Extension {
             const val PROPERTIES = "properties"
-            const val APK = "apk"
-            const val JSON = "json"
-            const val XML = "xml"
-            const val TL = "tl"
-            const val TXT = "txt"
-            const val TOML = "toml"
             const val GRADLE_SCRIPT = "gradle"
             const val KOTLIN_SCRIPT = "kts"
+            const val TOML = "toml"
+            const val TL = "tl"
+            const val APK = "apk"
+
+            const val TXT = "txt"
+            const val XML = "xml"
+            const val JSON = "json"
+            const val PNG = "png"
         }
     }
 
     object Char {
         const val EMPTY: String = ""
+        const val SPACE = ' '
+        const val NEW_LINE = '\n'
+        const val TAB = '\t'
 
         const val SLASH = '/'
         const val BACK_SLASH = '\\'
 
         const val DOT = '.'
-        const val DOLLAR = '$'
+        const val COMMA = ','
         const val COLON = ':'
         const val SEMICOLON = ';'
-        const val SPACE = ' '
         const val CARET = '^'
         const val UNDERSCORE = '_'
-        const val PIPE = '|'
+        const val VERTICAL_BAR = '|'
+        const val ASTERISK = '*'
+        const val AT_SIGN = '@'
+        const val NUMBER_SIGN = '#'
+        const val DOLLAR = '$'
+
         const val HYPHEN = '-'
-        const val COMMA = ','
+        const val PLUS = '+'
+
         const val QUESTION_MARK = '?'
         const val EXCLAMATION_MARK = '!'
-        const val PLUS = '+'
-        const val ASTERISK = '*'
-        const val AT = '@'
-        const val PERCENT_SIGN = '%'
-        const val HASH = '#'
-        const val NEW_LINE = '\n'
-        const val TAB = '\t'
 
+        const val PERCENT_SIGN = '%'
+        const val EQUAL_SIGN = '='
+
+        const val BACKTICK = '`'
         const val SINGLE_QUOTE = '\''
         const val DOUBLE_QUOTE = '"'
-        const val EQUAL_SIGN = '='
 
         const val OPENING_ROUND_BRACKET = '('
         const val CLOSING_ROUND_BRACKET = ')'

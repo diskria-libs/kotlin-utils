@@ -1,11 +1,11 @@
-import io.github.diskria.organizations.extensions.configureLibrary
+import io.github.diskria.projektor.gradle.extensions.configureLibrary
 
 plugins {
     `maven-publish`
     signing
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.organizations)
+    alias(libs.plugins.projektor)
 }
 
 dependencies {

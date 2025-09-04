@@ -42,7 +42,7 @@ fun buildString(vararg parts: Any?): String =
     }
 
 fun buildEmail(localPart: String, domain: String): String =
-    buildString(localPart, Constants.Char.AT, domain)
+    buildString(localPart, Constants.Char.AT_SIGN, domain)
 
 fun buildUrl(builder: URLBuilder.() -> Unit): String =
     URLBuilder().apply(builder).buildString()
@@ -53,12 +53,8 @@ fun buildUrl(
     builder: URLBuilder.() -> Unit = {},
 ): String =
     buildUrl {
-        if (protocol != null) {
-            this.protocol = protocol
-        }
-        if (host != null) {
-            this.host = host
-        }
+        protocol?.let { this.protocol = it }
+        host?.let { this.host = it }
         builder()
     }
 
