@@ -1,5 +1,6 @@
 package io.github.diskria.utils.kotlin.delegates
 
+import io.github.diskria.utils.kotlin.extensions.common.camelCase
 import io.github.diskria.utils.kotlin.extensions.setCase
 import io.github.diskria.utils.kotlin.poet.Property
 import io.github.diskria.utils.kotlin.words.CamelCase
@@ -9,5 +10,5 @@ class AutoNamedPairProperty<T>(value: T, case: StringCase) : AbstractAutoNamedPr
     { propertyName -> Property(propertyName.setCase(CamelCase, case), value) }
 )
 
-inline fun <reified T> T.toAutoNamedProperty(case: StringCase = CamelCase): AutoNamedPairProperty<T> =
+inline fun <reified T> T.toAutoNamedProperty(case: StringCase = camelCase): AutoNamedPairProperty<T> =
     AutoNamedPairProperty(this, case)
