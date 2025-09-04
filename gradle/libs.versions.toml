@@ -1,5 +1,5 @@
 [versions]
-gradle = "8.14"
+gradle = "9.0.0"
 projektor = "1.0.0"
 
 java = "21"
