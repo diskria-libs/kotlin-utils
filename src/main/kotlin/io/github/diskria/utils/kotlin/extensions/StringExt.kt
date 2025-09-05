@@ -9,6 +9,7 @@ import io.github.diskria.utils.kotlin.extensions.common.failWithDetails
 import io.github.diskria.utils.kotlin.extensions.common.failWithInvalidValue
 import io.github.diskria.utils.kotlin.extensions.common.modifyIf
 import io.github.diskria.utils.kotlin.extensions.common.modifyUnless
+import io.github.diskria.utils.kotlin.extensions.common.sealedObjectsRecursive
 import io.github.diskria.utils.kotlin.extensions.generics.toFlatString
 import io.github.diskria.utils.kotlin.extensions.primitives.escaped
 import io.github.diskria.utils.kotlin.words.StringCase
@@ -178,9 +179,22 @@ fun String.toSemver(): Semver =
 
 fun String.toWord(): Word = Word(this)
 
-fun String.setCase(from: StringCase, to: StringCase): String =
-    if (from == to) this
-    else to.joinWords(splitWords(from))
+fun String.setCase(oldCase: StringCase, newCase: StringCase): String =
+    if (oldCase == newCase) this
+    else newCase.joinWords(splitWords(oldCase))
+
+fun String.setCase(case: StringCase): String =
+    setCase(getCaseOrThrow(), case)
+
+fun String.getCase(): StringCase? =
+    StringCase::class
+        .sealedObjectsRecursive()
+        .firstOrNull { case ->
+            case.matches(this)
+        }
+
+fun String.getCaseOrThrow(): StringCase =
+    getCase() ?: error("")
 
 fun String.splitWords(case: StringCase): List<Word> =
     case.splitWords(this)
@@ -221,3 +235,4 @@ inline fun <reified T : Enum<T>> String.toEnum(): T =
 
 fun String?.toNullIfEmpty(): String? =
     this?.ifEmpty { null }
+

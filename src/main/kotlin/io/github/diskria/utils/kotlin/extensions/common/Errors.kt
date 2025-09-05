@@ -45,8 +45,9 @@ fun failWithDetails(description: String? = null, vararg values: Property<Any?>):
                     appendLine(
                         buildString {
                             append(Constants.Char.HYPHEN.wrapWithSpace())
-                            append(property.name.setCase(camelCase, `space case`).wrapWithSingleQuote())
-                            append(Constants.Char.EQUAL_SIGN.wrapWithSpace())
+                            append(property.name.setCase(camelCase, `space case`))
+                            append(Constants.Char.COLON)
+                            append(Constants.Char.SPACE)
                             append(property.value.toString().wrapWithSingleQuote())
                         }
                     )

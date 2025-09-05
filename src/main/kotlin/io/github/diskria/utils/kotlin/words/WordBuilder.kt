@@ -19,5 +19,6 @@ class WordBuilder {
         stringBuilder.append(char)
     }
 
-    fun buildWord(): Word = stringBuilder.toString().toWord()
+    fun buildWord(): Word =
+        stringBuilder.toString().toWord()
 }

@@ -2,7 +2,8 @@ package io.github.diskria.utils.kotlin.words
 
 import io.github.diskria.utils.kotlin.extensions.generics.foldChainWindow
 
-object CamelCase : StringCase {
+object CamelCase : StringCase() {
+
     override fun splitWords(string: String): List<Word> =
         string.toList().foldChainWindow(mutableListOf<WordBuilder>()) { prev, current, next ->
             val previousChar = prev()
@@ -15,7 +16,7 @@ object CamelCase : StringCase {
             last().appendChar(current)
         }.map { it.buildWord() }
 
-    override fun getWordCase(wordIndex: Int): WordCase =
-        if (wordIndex == 0) WordCase.LOWERCASE
-        else WordCase.CAPITALIZED
+    override fun getWordStyle(isFirst: Boolean): WordStyle =
+        if (isFirst) WordStyle.LOWERCASE
+        else WordStyle.CAPITALIZED
 }
