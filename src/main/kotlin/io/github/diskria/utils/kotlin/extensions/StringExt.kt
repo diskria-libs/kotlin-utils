@@ -14,6 +14,7 @@ import io.github.diskria.utils.kotlin.extensions.primitives.escaped
 import io.github.diskria.utils.kotlin.words.StringCase
 import io.github.diskria.utils.kotlin.words.Word
 import java.io.File
+import kotlin.enums.enumEntries
 
 inline fun <reified T> String.toTypedOrThrow(): T =
     toTypedOrNull() ?: failWithDetails {
@@ -207,3 +208,16 @@ fun String.normalizeCharsToCanonical(canonical: Char): String {
         else char
     }
 }
+
+inline fun <reified T : Enum<T>> String.toEnumOrNull(): T? =
+    enumEntries<T>().firstOrNull { it.name.equalsIgnoreCase(this) }
+
+inline fun <reified T : Enum<T>> String.toEnum(): T =
+    toEnumOrNull<T>() ?: failWithDetails("Unknown enum name") {
+        val enumName by this.toAutoNamedProperty()
+        val availableValues by enumEntries<T>().toAutoNamedProperty()
+        listOf(enumName, availableValues)
+    }
+
+fun String?.toNullIfEmpty(): String? =
+    this?.ifEmpty { null }

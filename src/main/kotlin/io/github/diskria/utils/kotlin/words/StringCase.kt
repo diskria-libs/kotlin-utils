@@ -11,5 +11,6 @@ sealed interface StringCase {
     fun joinWords(words: List<Word>): String =
         words.mapIndexed { index, word -> word.get(getWordCase(index)) }.joinToString(getWordSeparator())
 
-    private fun getWordSeparator(): String = getWordSeparatorChar()?.toString() ?: Constants.Char.EMPTY
+    private fun getWordSeparator(): String =
+        getWordSeparatorChar()?.toString() ?: Constants.Char.EMPTY
 }

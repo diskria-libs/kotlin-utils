@@ -3,20 +3,16 @@ package io.github.diskria.utils.kotlin.extensions.common
 import io.github.diskria.utils.kotlin.Constants
 import io.github.diskria.utils.kotlin.delegates.toAutoNamedProperty
 import io.github.diskria.utils.kotlin.extensions.primitives.wrapWithSpace
+import io.github.diskria.utils.kotlin.extensions.setCase
+import io.github.diskria.utils.kotlin.extensions.toNullIfEmpty
 import io.github.diskria.utils.kotlin.extensions.wrapWithSingleQuote
 import io.github.diskria.utils.kotlin.poet.Property
 
-fun failAsImpossibleOperation(): Nothing =
-    error("This code path should be impossible. If you're seeing this, something is broken.")
-
-fun unsupportedOperation(): Nothing =
-    error("Unsupported operation")
-
-fun initializeFirst(): Nothing =
-    error("Not initialized")
-
 fun failWithWrongUsage(useInsteadThis: String): Nothing =
-    error("Use ${useInsteadThis.wrapWithSingleQuote()} instead this")
+    failWithDetails("Wrong usage detected") {
+        val useInsteadThis by useInsteadThis.toAutoNamedProperty()
+        listOf(useInsteadThis)
+    }
 
 fun failWithUnsupportedType(clazz: KotlinClass<*>): Nothing =
     failWithDetails("Unsupported type") {
@@ -42,21 +38,19 @@ fun failWithDetails(vararg values: Property<Any?>): Nothing =
 fun failWithDetails(description: String? = null, vararg values: Property<Any?>): Nothing =
     error(
         buildString {
-            appendLine(description ?: "Operation failed")
+            appendLine(description.toNullIfEmpty() ?: "Operation failed")
             if (values.isNotEmpty()) {
                 appendLine("Details:")
                 values.forEach { property ->
                     appendLine(
                         buildString {
                             append(Constants.Char.HYPHEN.wrapWithSpace())
-                            append(property.name.wrapWithSingleQuote())
+                            append(property.name.setCase(camelCase, `space case`).wrapWithSingleQuote())
                             append(Constants.Char.EQUAL_SIGN.wrapWithSpace())
                             append(property.value.toString().wrapWithSingleQuote())
                         }
                     )
                 }
-            } else {
-                appendLine("No additional details were provided.")
             }
         }
     )

@@ -34,3 +34,6 @@ fun <T> MutableList<T>.modifyLast(transform: (T) -> T) =
 fun <T> MutableList<T>.modifyElementAt(index: Int, transform: (T) -> T) {
     this[index] = transform(this[index])
 }
+
+fun <T> List<T>?.toNullIfEmpty(): List<T>? =
+    this?.ifEmpty { null }
