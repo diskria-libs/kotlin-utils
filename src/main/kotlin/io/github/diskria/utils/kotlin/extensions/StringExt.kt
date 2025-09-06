@@ -4,12 +4,11 @@ import io.github.diskria.utils.kotlin.BracketsType
 import io.github.diskria.utils.kotlin.Constants
 import io.github.diskria.utils.kotlin.EscapeMode
 import io.github.diskria.utils.kotlin.Semver
-import io.github.diskria.utils.kotlin.delegates.toAutoNamedProperty
+import io.github.diskria.utils.kotlin.properties.toAutoNamedProperty
 import io.github.diskria.utils.kotlin.extensions.common.failWithDetails
 import io.github.diskria.utils.kotlin.extensions.common.failWithInvalidValue
 import io.github.diskria.utils.kotlin.extensions.common.modifyIf
 import io.github.diskria.utils.kotlin.extensions.common.modifyUnless
-import io.github.diskria.utils.kotlin.extensions.common.sealedObjectsRecursive
 import io.github.diskria.utils.kotlin.extensions.generics.toFlatString
 import io.github.diskria.utils.kotlin.extensions.primitives.escaped
 import io.github.diskria.utils.kotlin.words.StringCase
@@ -183,45 +182,11 @@ fun String.setCase(oldCase: StringCase, newCase: StringCase): String =
     if (oldCase == newCase) this
     else newCase.joinWords(splitWords(oldCase))
 
-fun String.setCase(case: StringCase): String =
-    setCase(getCaseOrThrow(), case)
-
-fun String.getCase(): StringCase? =
-    StringCase::class
-        .sealedObjectsRecursive()
-        .firstOrNull { case ->
-            case.matches(this)
-        }
-
-fun String.getCaseOrThrow(): StringCase =
-    getCase() ?: error("")
-
 fun String.splitWords(case: StringCase): List<Word> =
     case.splitWords(this)
 
 fun <R> String.rebuild(transform: (Char) -> R): String =
     map(transform).toFlatString()
-
-private val canonicalAlternatives: Map<Char, CharArray> by lazy {
-    mapOf(
-        Constants.Char.HYPHEN to charArrayOf(
-            '\u2010',
-            '\u2011',
-            '\u2012',
-            '\u2013',
-            '\u2014',
-            '\u2212',
-        )
-    )
-}
-
-fun String.normalizeCharsToCanonical(canonical: Char): String {
-    val alternatives = canonicalAlternatives[canonical] ?: failWithInvalidValue(canonical)
-    return rebuild { char ->
-        if (char in alternatives) canonical
-        else char
-    }
-}
 
 inline fun <reified T : Enum<T>> String.toEnumOrNull(): T? =
     enumEntries<T>().firstOrNull { it.name.equalsIgnoreCase(this) }
@@ -235,4 +200,3 @@ inline fun <reified T : Enum<T>> String.toEnum(): T =
 
 fun String?.toNullIfEmpty(): String? =
     this?.ifEmpty { null }
-

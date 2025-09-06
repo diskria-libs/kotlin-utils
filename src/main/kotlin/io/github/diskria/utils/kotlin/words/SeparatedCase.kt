@@ -4,7 +4,7 @@ sealed class SeparatedCase(
     private val wordSeparator: Char? = null,
     private val wordStyle: WordStyle = WordStyle.LOWERCASE,
     private val firstWordStyle: WordStyle = wordStyle,
-) : StringCase() {
+) : StringCase {
 
     override fun getWordSeparatorChar(): Char? = wordSeparator
 

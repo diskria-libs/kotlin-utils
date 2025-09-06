@@ -14,7 +14,6 @@ data class Semver(val major: Int, val minor: Int, val patch: Int) : Comparable<S
         listOf(major, minor, patch).joinToString(Constants.Char.DOT)
 
     companion object {
-
         val MIN_VALUE: Semver = Semver(0, 0, 0)
         val MAX_VALUE: Semver = Semver(Int.MAX_VALUE, Int.MAX_VALUE, Int.MAX_VALUE)
 

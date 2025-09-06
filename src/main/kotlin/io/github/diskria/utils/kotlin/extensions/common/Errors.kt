@@ -1,7 +1,7 @@
 package io.github.diskria.utils.kotlin.extensions.common
 
 import io.github.diskria.utils.kotlin.Constants
-import io.github.diskria.utils.kotlin.delegates.toAutoNamedProperty
+import io.github.diskria.utils.kotlin.properties.toAutoNamedProperty
 import io.github.diskria.utils.kotlin.extensions.primitives.wrapWithSpace
 import io.github.diskria.utils.kotlin.extensions.setCase
 import io.github.diskria.utils.kotlin.extensions.toNullIfEmpty
@@ -45,7 +45,7 @@ fun failWithDetails(description: String? = null, vararg values: Property<Any?>):
                     appendLine(
                         buildString {
                             append(Constants.Char.HYPHEN.wrapWithSpace())
-                            append(property.name.setCase(camelCase, `space case`))
+                            append(property.name.setCase(camelCase, `Sentence case`))
                             append(Constants.Char.COLON)
                             append(Constants.Char.SPACE)
                             append(property.value.toString().wrapWithSingleQuote())

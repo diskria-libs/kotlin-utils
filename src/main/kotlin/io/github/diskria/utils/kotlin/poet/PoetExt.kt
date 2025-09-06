@@ -2,7 +2,7 @@ package io.github.diskria.utils.kotlin.poet
 
 import com.squareup.kotlinpoet.*
 import io.github.diskria.utils.kotlin.Constants
-import io.github.diskria.utils.kotlin.delegates.toAutoNamedProperty
+import io.github.diskria.utils.kotlin.properties.toAutoNamedProperty
 import io.github.diskria.utils.kotlin.extensions.common.KotlinModifier
 import io.github.diskria.utils.kotlin.extensions.common.failWithDetails
 

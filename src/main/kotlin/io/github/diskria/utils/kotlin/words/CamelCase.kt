@@ -2,7 +2,7 @@ package io.github.diskria.utils.kotlin.words
 
 import io.github.diskria.utils.kotlin.extensions.generics.foldChainWindow
 
-object CamelCase : StringCase() {
+object CamelCase : StringCase {
 
     override fun splitWords(string: String): List<Word> =
         string.toList().foldChainWindow(mutableListOf<WordBuilder>()) { prev, current, next ->

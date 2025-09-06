@@ -1,6 +1,6 @@
 package io.github.diskria.utils.kotlin.extensions.generics
 
-import io.github.diskria.utils.kotlin.delegates.toAutoNamedProperty
+import io.github.diskria.utils.kotlin.properties.toAutoNamedProperty
 import io.github.diskria.utils.kotlin.extensions.common.failWithDetails
 
 fun <T> List<T>.takeIfExceeds(limit: Int): List<T>? =

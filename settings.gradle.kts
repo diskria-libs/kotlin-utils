@@ -1,6 +1,7 @@
 rootProject.name = providers.gradleProperty("projectName").get()
 
 object EnvironmentVariables {
+
     const val GITHUB_USERNAME = "GITHUB_USERNAME"
     const val GITHUB_PACKAGES_TOKEN = "GITHUB_PACKAGES_TOKEN"
     const val PROJEKTOR_PLUGIN_PATH = "PROJEKTOR_PLUGIN_PATH"
@@ -9,7 +10,7 @@ object EnvironmentVariables {
         System.getenv(name)?.takeIf { it.isNotBlank() }
 }
 
-val projektorPluginLocalPath = EnvironmentVariables.getValue(EnvironmentVariables.PROJEKTOR_PLUGIN_PATH)
+val projektorPluginPath = EnvironmentVariables.getValue(EnvironmentVariables.PROJEKTOR_PLUGIN_PATH)
 val githubUsername = EnvironmentVariables.getValue(EnvironmentVariables.GITHUB_USERNAME)
 val githubPackagesToken = EnvironmentVariables.getValue(EnvironmentVariables.GITHUB_PACKAGES_TOKEN)
 
@@ -17,11 +18,15 @@ fun RepositoryHandler.commonRepositories() {
     mavenCentral()
 }
 
-fun RepositoryHandler.attachProjektorGradlePluginMaven() {
-    if (projektorPluginLocalPath != null || githubPackagesToken == null || githubUsername == null) {
+fun RepositoryHandler.mavenGithubPackages() {
+    if (projektorPluginPath != null || githubPackagesToken == null || githubUsername == null) {
         return
     }
-    maven("https://maven.pkg.github.com/$githubUsername/projektor") {
+    mavenGithubPackage("$githubUsername/projektor")
+}
+
+fun RepositoryHandler.mavenGithubPackage(repositoryPath: String) {
+    maven("https://maven.pkg.github.com/$repositoryPath") {
         credentials {
             username = githubUsername
             password = githubPackagesToken
@@ -29,35 +34,39 @@ fun RepositoryHandler.attachProjektorGradlePluginMaven() {
     }
 }
 
-fun RepositoryHandler.attachPluginRepositories() {
+fun RepositoryHandler.pluginRepositories() {
     gradlePluginPortal()
-    attachProjektorGradlePluginMaven()
+    mavenGithubPackages()
 }
 
 @Suppress("UnstableApiUsage")
 fun setupRepositories() {
-    dependencyResolutionManagement.repositories {
-        commonRepositories()
+    dependencyResolutionManagement {
+        repositories {
+            commonRepositories()
+        }
     }
 
-    pluginManagement.repositories {
-        commonRepositories()
-        attachPluginRepositories()
+    pluginManagement {
+        repositories {
+            commonRepositories()
+            pluginRepositories()
+        }
     }
 }
 
 setupRepositories()
 
 when {
-    projektorPluginLocalPath != null -> {
-        includeBuild(projektorPluginLocalPath)
-        pluginManagement.includeBuild(projektorPluginLocalPath)
+    projektorPluginPath != null -> {
+        includeBuild(projektorPluginPath)
+        pluginManagement.includeBuild(projektorPluginPath)
     }
 
     githubPackagesToken == null || githubUsername == null -> error(
         """
         Invalid configuration for plugin resolution.
-    
+
         Both ${EnvironmentVariables.GITHUB_PACKAGES_TOKEN} and ${EnvironmentVariables.GITHUB_USERNAME}
         must be provided together when using GitHub Packages.
         """.trimIndent()
