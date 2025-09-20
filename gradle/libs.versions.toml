@@ -3,7 +3,7 @@ gradle = "9.0.0"
 java = "21"
 kotlin = "2.2.0"
 
-projektor = "1.0.0"
+projektor = "1.+"
 
 kotlin-serialization = "1.9.0"
 kotlin-poet = "2.2.0"

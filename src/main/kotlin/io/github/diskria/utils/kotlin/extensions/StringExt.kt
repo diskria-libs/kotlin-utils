@@ -188,15 +188,5 @@ fun String.splitWords(case: StringCase): List<Word> =
 fun <R> String.rebuild(transform: (Char) -> R): String =
     map(transform).toFlatString()
 
-inline fun <reified T : Enum<T>> String.toEnumOrNull(): T? =
-    enumEntries<T>().firstOrNull { it.name.equalsIgnoreCase(this) }
-
-inline fun <reified T : Enum<T>> String.toEnum(): T =
-    toEnumOrNull<T>() ?: failWithDetails("Unknown enum name") {
-        val enumName by this.toAutoNamedProperty()
-        val availableValues by enumEntries<T>().toAutoNamedProperty()
-        listOf(enumName, availableValues)
-    }
-
 fun String?.toNullIfEmpty(): String? =
     this?.ifEmpty { null }
