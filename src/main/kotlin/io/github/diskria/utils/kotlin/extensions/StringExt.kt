@@ -14,10 +14,9 @@ import io.github.diskria.utils.kotlin.extensions.primitives.escaped
 import io.github.diskria.utils.kotlin.words.StringCase
 import io.github.diskria.utils.kotlin.words.Word
 import java.io.File
-import kotlin.enums.enumEntries
 
-inline fun <reified T> String.toTypedOrThrow(): T =
-    toTypedOrNull() ?: failWithDetails {
+inline fun <reified T> String.parse(): T =
+    parseOrNull() ?: failWithDetails {
         val string by this.toAutoNamedProperty()
         val type by T::class.toAutoNamedProperty()
         listOf(string, type)
@@ -40,7 +39,7 @@ fun String.capitalizeFirstChar(lowerRest: Boolean = false): String =
 fun String.equalsIgnoreCase(other: String?): Boolean =
     equals(other, ignoreCase = true)
 
-fun String.toCharOrThrow(): Char =
+fun String.toChar(): Char =
     toCharOrNull() ?: failWithInvalidValue(this)
 
 fun String.splitByComma(): List<String> =
@@ -126,9 +125,6 @@ fun String.regexEscaped(): String =
 fun String.insertAt(index: Int, insertion: String): String =
     substring(0, index) + insertion + substring(index)
 
-fun String.toIntOrThrow(): Int =
-    toIntOrNull() ?: failWithInvalidValue(this)
-
 fun String.toUIntFromHex(): UInt =
     toUInt(16)
 
@@ -155,7 +151,7 @@ fun String.collapseRepeating(segment: String): String {
     }.last()
 }
 
-inline fun <reified T> String.toTypedOrNull(): T? =
+inline fun <reified T> String.parseOrNull(): T? =
     when (T::class) {
         Boolean::class -> toBooleanOrNull()
         Int::class -> toIntOrNull()

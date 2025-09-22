@@ -1,10 +1,7 @@
 package io.github.diskria.utils.kotlin.extensions
 
 import io.github.diskria.utils.kotlin.extensions.generics.toFlatString
-import io.github.diskria.utils.kotlin.extensions.libraries.jsonFor
 import io.github.diskria.utils.kotlin.extensions.primitives.toHex
-import kotlinx.serialization.ExperimentalSerializationApi
-import kotlinx.serialization.json.decodeFromStream
 import java.io.File
 import java.security.MessageDigest
 
@@ -30,13 +27,13 @@ fun File.findLastModifiedFile(extension: String): File? =
 fun File.asFileOrNull(): File? =
     takeIf { isFile }
 
+fun File.asFile(): File =
+    asFileOrNull() ?: error("File $path not exists")
+
 fun File.asDirectoryOrNull(): File? =
     takeIf { isDirectory }
 
-fun File.asFileOrThrow(): File =
-    asFileOrNull() ?: error("File $path not exists")
-
-fun File.asDirectoryOrThrow(): File =
+fun File.asDirectory(): File =
     asDirectoryOrNull() ?: error("Directory $path not exists")
 
 fun File.getChecksum(algorithmName: String = "MD5"): String {
@@ -54,7 +51,3 @@ fun File.deleteOrThrow() {
         error("Failed to delete file: $absolutePath")
     }
 }
-
-@OptIn(ExperimentalSerializationApi::class)
-inline fun <reified T> File.serialize(): T =
-    jsonFor<T>().decodeFromStream(inputStream())

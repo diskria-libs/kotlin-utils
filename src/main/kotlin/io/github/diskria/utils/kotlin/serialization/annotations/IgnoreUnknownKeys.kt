@@ -1,4 +1,4 @@
-package io.github.diskria.utils.kotlin.annotations
+package io.github.diskria.utils.kotlin.serialization.annotations
 
 @Target(AnnotationTarget.CLASS)
 @Retention(AnnotationRetention.RUNTIME)

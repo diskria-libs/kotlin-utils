@@ -8,11 +8,11 @@ import kotlinx.serialization.descriptors.SerialDescriptor
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-open class PrimitiveValueSerializer<Raw, T : Any>(
+open class PrimitiveValueSerializer<R, T : Any>(
     clazz: KotlinClass<T>,
-    private val kindInfo: PrimitiveKindInfo<Raw>,
-    private val fromRawValue: (Raw) -> T,
-    private val toRawValue: (T) -> Raw,
+    private val kindInfo: PrimitiveKindInfo<R>,
+    private val fromRawValue: (R) -> T,
+    private val toRawValue: (T) -> R,
 ) : KotlinSerializer<T> {
 
     override val descriptor: SerialDescriptor =

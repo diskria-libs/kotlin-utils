@@ -6,25 +6,25 @@ import kotlinx.serialization.descriptors.PrimitiveKind
 import kotlinx.serialization.encoding.Decoder
 import kotlinx.serialization.encoding.Encoder
 
-interface SerializableValue<Raw> {
-    fun getRawValue(): Raw
+interface SerializableValue<R> {
+    fun getRawValue(): R
 }
 
-inline fun <reified Raw, reified T : SerializableValue<Raw>> valueSerializer(
-    noinline rawMapper: (Raw) -> T,
+inline fun <reified R, reified T : SerializableValue<R>> valueSerializer(
+    noinline rawMapper: (R) -> T,
 ): KotlinSerializer<T> {
 
-    val kindInfo = object : PrimitiveKindInfo<Raw> {
+    val kindInfo = object : PrimitiveKindInfo<R> {
 
         override val kind: PrimitiveKind
-            get() = when (Raw::class) {
+            get() = when (R::class) {
                 String::class -> PrimitiveKind.STRING
                 Int::class -> PrimitiveKind.INT
                 Boolean::class -> PrimitiveKind.BOOLEAN
-                else -> failWithUnsupportedType(Raw::class)
+                else -> failWithUnsupportedType(R::class)
             }
 
-        override fun encode(encoder: Encoder, value: Raw) {
+        override fun encode(encoder: Encoder, value: R) {
             when (value) {
                 is String -> encoder.encodeString(value)
                 is Int -> encoder.encodeInt(value)
@@ -33,13 +33,13 @@ inline fun <reified Raw, reified T : SerializableValue<Raw>> valueSerializer(
             }
         }
 
-        override fun decode(decoder: Decoder): Raw =
-            when (Raw::class) {
+        override fun decode(decoder: Decoder): R =
+            when (R::class) {
                 String::class -> decoder.decodeString()
                 Int::class -> decoder.decodeInt()
                 Boolean::class -> decoder.decodeBoolean()
-                else -> failWithUnsupportedType(Raw::class)
-            } as Raw
+                else -> failWithUnsupportedType(R::class)
+            } as R
     }
 
     return PrimitiveValueSerializer(
