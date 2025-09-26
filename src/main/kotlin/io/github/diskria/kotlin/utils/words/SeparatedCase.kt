@@ -6,7 +6,8 @@ sealed class SeparatedCase(
     private val firstWordStyle: WordStyle = wordStyle,
 ) : StringCase {
 
-    override fun getWordSeparatorChar(): Char? = wordSeparator
+    override fun getWordSeparatorChar(): Char? =
+        wordSeparator
 
     override fun getWordStyle(isFirst: Boolean): WordStyle =
         if (isFirst) firstWordStyle

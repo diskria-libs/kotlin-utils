@@ -3,18 +3,7 @@
 package io.github.diskria.kotlin.utils.extensions.common
 
 import com.squareup.kotlinpoet.KModifier
-import io.github.diskria.kotlin.utils.words.CamelCase
-import io.github.diskria.kotlin.utils.words.CobolCase
-import io.github.diskria.kotlin.utils.words.DotCase
-import io.github.diskria.kotlin.utils.words.FlatCase
-import io.github.diskria.kotlin.utils.words.KebabCase
-import io.github.diskria.kotlin.utils.words.PathCase
-import io.github.diskria.kotlin.utils.words.ScreamingSnakeCase
-import io.github.diskria.kotlin.utils.words.SentenceCase
-import io.github.diskria.kotlin.utils.words.SnakeCase
-import io.github.diskria.kotlin.utils.words.SpaceCase
-import io.github.diskria.kotlin.utils.words.TitleCase
-import io.github.diskria.kotlin.utils.words.TrainCase
+import io.github.diskria.kotlin.utils.words.*
 import kotlinx.serialization.KSerializer
 import kotlin.reflect.KClass
 import kotlin.reflect.KProperty

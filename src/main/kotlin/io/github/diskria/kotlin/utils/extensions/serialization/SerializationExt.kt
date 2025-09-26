@@ -1,8 +1,8 @@
 package io.github.diskria.kotlin.utils.extensions.serialization
 
+import io.github.diskria.kotlin.utils.extensions.common.KotlinClass
 import io.github.diskria.kotlin.utils.serialization.annotations.IgnoreUnknownKeys
 import io.github.diskria.kotlin.utils.serialization.annotations.PrettyPrint
-import io.github.diskria.kotlin.utils.extensions.common.KotlinClass
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream

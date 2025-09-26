@@ -4,13 +4,13 @@ import io.github.diskria.kotlin.utils.BracketsType
 import io.github.diskria.kotlin.utils.Constants
 import io.github.diskria.kotlin.utils.EscapeMode
 import io.github.diskria.kotlin.utils.Semver
-import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
 import io.github.diskria.kotlin.utils.extensions.common.failWithDetails
 import io.github.diskria.kotlin.utils.extensions.common.failWithInvalidValue
 import io.github.diskria.kotlin.utils.extensions.common.modifyIf
 import io.github.diskria.kotlin.utils.extensions.common.modifyUnless
 import io.github.diskria.kotlin.utils.extensions.generics.toFlatString
 import io.github.diskria.kotlin.utils.extensions.primitives.escaped
+import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
 import io.github.diskria.kotlin.utils.words.StringCase
 import io.github.diskria.kotlin.utils.words.Word
 import java.io.File
@@ -91,6 +91,9 @@ fun String.replace(regex: Regex, char: Char): String =
 
 fun String.appendPackageName(packageName: String): String =
     appendSuffix(packageName.ensurePrefix(Constants.Char.DOT))
+
+fun String.appendPath(path: String): String =
+    appendSuffix(path.ensurePrefix(Constants.Char.SLASH))
 
 fun String.ensurePrefix(prefix: Char): String =
     ensurePrefix(prefix.toString())
@@ -175,8 +178,7 @@ fun String.toSemver(): Semver =
 fun String.toWord(): Word = Word(this)
 
 fun String.setCase(oldCase: StringCase, newCase: StringCase): String =
-    if (oldCase == newCase) this
-    else newCase.joinWords(splitWords(oldCase))
+    oldCase.convert(this, newCase)
 
 fun String.splitWords(case: StringCase): List<Word> =
     case.splitWords(this)

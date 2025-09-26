@@ -1,7 +1,7 @@
 package io.github.diskria.kotlin.utils.extensions.generics
 
-import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
 import io.github.diskria.kotlin.utils.extensions.common.failWithDetails
+import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
 
 fun <T> List<T>.takeIfExceeds(limit: Int): List<T>? =
     if (size > limit) take(size - limit)

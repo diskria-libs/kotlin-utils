@@ -1,8 +1,8 @@
 package io.github.diskria.kotlin.utils.words
 
-import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
 import io.github.diskria.kotlin.utils.extensions.common.failWithDetails
 import io.github.diskria.kotlin.utils.extensions.toWord
+import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
 
 class WordBuilder {
 

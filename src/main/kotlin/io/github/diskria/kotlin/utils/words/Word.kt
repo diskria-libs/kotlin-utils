@@ -10,7 +10,7 @@ value class Word(private val string: String) {
             when (case) {
                 WordStyle.LOWERCASE -> lowercase()
                 WordStyle.UPPERCASE -> uppercase()
-                WordStyle.CAPITALIZED -> capitalizeFirstChar()
+                WordStyle.CAPITALIZED -> capitalizeFirstChar(lowerRest = true)
             }
         }
 }

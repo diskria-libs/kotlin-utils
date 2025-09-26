@@ -1,3 +1,5 @@
 package io.github.diskria.kotlin.utils.words
 
-object TrainCase : SeparatedCase(KebabCase.getWordSeparatorChar(), WordStyle.CAPITALIZED)
+import io.github.diskria.kotlin.utils.extensions.common.`kebab-case`
+
+object TrainCase : SeparatedCase(`kebab-case`.getWordSeparatorChar(), WordStyle.CAPITALIZED)

@@ -1,5 +1,6 @@
 package io.github.diskria.kotlin.utils.extensions.mappers
 
+import io.github.diskria.kotlin.utils.extensions.common.SCREAMING_SNAKE_CASE
 import io.github.diskria.kotlin.utils.extensions.common.failWithDetails
 import io.github.diskria.kotlin.utils.extensions.common.snake_case
 import io.github.diskria.kotlin.utils.extensions.equalsIgnoreCase
@@ -18,8 +19,5 @@ inline fun <reified T : Enum<T>> String.toEnum(): T =
         listOf(enumName, availableValues)
     }
 
-fun <E : Enum<E>> E.toName(case: StringCase? = null): String =
-    name.lowercase().run {
-        if (case != null) setCase(snake_case, case)
-        else this
-    }
+fun <E : Enum<E>> E.getName(case: StringCase = snake_case): String =
+    name.setCase(SCREAMING_SNAKE_CASE, case)

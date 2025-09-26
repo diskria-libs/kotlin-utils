@@ -2,9 +2,9 @@ package io.github.diskria.kotlin.utils.poet
 
 import com.squareup.kotlinpoet.*
 import io.github.diskria.kotlin.utils.Constants
-import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
 import io.github.diskria.kotlin.utils.extensions.common.KotlinModifier
 import io.github.diskria.kotlin.utils.extensions.common.failWithDetails
+import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
 
 inline fun <reified T> poetProperty(property: Property<T>, isConstant: Boolean = false): PropertySpec {
     val name = property.name

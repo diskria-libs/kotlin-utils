@@ -18,20 +18,8 @@ This library provides small but powerful building blocks that simplify common ta
 
 ## 📦 Installation
 
-With Gradle:
-
 ```kotlin
-implementation("io.github.diskria:kotlin-utils:<latest_version>")
-```
-
-Or from **Maven Central**:
-
-```xml
-<dependency>
-  <groupId>io.github.diskria</groupId>
-  <artifactId>kotlin-utils</artifactId>
-  <version><latest_version></version>
-</dependency>
+implementation("io.github.diskria:kotlin-utils:LATEST")
 ```
 
 ---
