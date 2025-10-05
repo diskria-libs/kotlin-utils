@@ -1,5 +1,3 @@
-import io.github.diskria.projektor.extensions.configureProject
-
 pluginManagement {
     repositories {
         mavenCentral()
@@ -8,7 +6,13 @@ pluginManagement {
 }
 
 plugins {
-    id("io.github.diskria.projektor.settings") version "1.+"
+    id("io.github.diskria.projektor.settings") version "2.+"
 }
 
-configureProject()
+projekt {
+    name = "Kotlin Utils"
+    description = "Reusable utility extensions for Kotlin language and libraries"
+    version = "0.5.3"
+
+    kotlinLibrary()
+}

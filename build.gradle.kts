@@ -1,11 +1,14 @@
-import io.github.diskria.projektor.extensions.configureLibrary
+import io.github.diskria.projektor.owner.domain.LibrariesDomain
+import io.github.diskria.projektor.licenses.MitLicense
+import io.github.diskria.projektor.publishing.MavenCentral
 
 plugins {
     `maven-publish`
     signing
+    alias(libs.plugins.projektor)
+    alias(libs.plugins.build.config)
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.kotlin.serialization)
-    alias(libs.plugins.projektor)
 }
 
 dependencies {
@@ -16,4 +19,10 @@ dependencies {
     implementation(libs.ktor.http)
 }
 
-configureLibrary()
+projekt {
+    owner = LibrariesDomain
+    license = MitLicense
+    publishingTarget = MavenCentral
+
+    kotlinLibrary()
+}
