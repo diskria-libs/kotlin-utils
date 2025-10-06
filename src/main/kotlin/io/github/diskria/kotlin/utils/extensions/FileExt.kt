@@ -51,3 +51,6 @@ fun File.deleteOrThrow() {
         error("Failed to delete file: $absolutePath")
     }
 }
+
+inline fun <T> File.ifNotExists(fallback: (File) -> T): T? =
+    takeUnless { exists() }?.let(fallback)

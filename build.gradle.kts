@@ -1,4 +1,3 @@
-import io.github.diskria.projektor.owner.domain.LibrariesDomain
 import io.github.diskria.projektor.licenses.MitLicense
 import io.github.diskria.projektor.publishing.MavenCentral
 
@@ -14,13 +13,11 @@ plugins {
 dependencies {
     implementation(libs.kotlin.serialization)
     implementation(libs.kotlin.reflect)
-
     implementation(libs.kotlin.poet)
-    implementation(libs.ktor.http)
+    implementation(libs.bundles.ktor.client)
 }
 
 projekt {
-    owner = LibrariesDomain
     license = MitLicense
     publishingTarget = MavenCentral
 

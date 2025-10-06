@@ -12,9 +12,8 @@ plugins {
 }
 
 projekt {
-    name = "Kotlin Utils"
     description = "Reusable utility extensions for Kotlin language and libraries"
-    version = "0.5.3"
+    version = "0.5.4"
 
     kotlinLibrary()
 }
