@@ -24,6 +24,9 @@ jobs:
 
       - name: Build staging repo
         run: ./gradlew clean publish --stacktrace
+        env:
+          GITHUB_OWNER: ${{ github.repository_owner }}
+          GITHUB_REPO: ${{ github.event.repository.name }}
 
       - name: Detect main jar name
         id: jar
