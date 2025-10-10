@@ -1,6 +1,7 @@
 package io.github.diskria.kotlin.utils.extensions.serialization
 
 import io.github.diskria.kotlin.utils.extensions.common.KotlinClass
+import io.github.diskria.kotlin.utils.serialization.annotations.EncodeDefaults
 import io.github.diskria.kotlin.utils.serialization.annotations.IgnoreUnknownKeys
 import io.github.diskria.kotlin.utils.serialization.annotations.PrettyPrint
 import kotlinx.serialization.ExperimentalSerializationApi
@@ -21,6 +22,9 @@ inline fun <reified T> jsonFor(): Json =
             if (T::class.shouldIgnoreUnknownKeys()) {
                 ignoreUnknownKeys = true
             }
+            if (T::class.shouldEncodeDefaults()) {
+                encodeDefaults = true
+            }
         }
     }
 
@@ -30,9 +34,15 @@ fun KotlinClass<*>.shouldEnablePrettyPrint(): Boolean =
 fun KotlinClass<*>.shouldIgnoreUnknownKeys(): Boolean =
     findAnnotation<IgnoreUnknownKeys>() != null
 
+fun KotlinClass<*>.shouldEncodeDefaults(): Boolean =
+    findAnnotation<EncodeDefaults>() != null
+
 inline fun <reified T> T.serialize(file: File) {
-    file.writeText(jsonFor<T>().encodeToString(this))
+    file.writeText(serialize())
 }
+
+inline fun <reified T> T.serialize(): String =
+    jsonFor<T>().encodeToString(this)
 
 @OptIn(ExperimentalSerializationApi::class)
 inline fun <reified T> File.deserialize(): T =

@@ -1,4 +1,3 @@
-import io.github.diskria.projektor.licenses.MitLicense
 import io.github.diskria.projektor.publishing.MavenCentral
 
 plugins {
@@ -18,7 +17,6 @@ dependencies {
 }
 
 projekt {
-    license = MitLicense
     publishingTarget = MavenCentral
 
     kotlinLibrary()
