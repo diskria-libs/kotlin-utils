@@ -5,7 +5,7 @@ import io.github.diskria.kotlin.utils.extensions.common.failWithDetails
 import io.github.diskria.kotlin.utils.extensions.common.snake_case
 import io.github.diskria.kotlin.utils.extensions.equalsIgnoreCase
 import io.github.diskria.kotlin.utils.extensions.setCase
-import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
+import io.github.diskria.kotlin.utils.properties.autoNamedProperty
 import io.github.diskria.kotlin.utils.words.StringCase
 import kotlin.enums.enumEntries
 
@@ -14,8 +14,8 @@ inline fun <reified T : Enum<T>> String.toEnumOrNull(): T? =
 
 inline fun <reified T : Enum<T>> String.toEnum(): T =
     toEnumOrNull<T>() ?: failWithDetails("Unknown enum name") {
-        val enumName by this.toAutoNamedProperty()
-        val availableValues by enumEntries<T>().toAutoNamedProperty()
+        val enumName by this.autoNamedProperty()
+        val availableValues by enumEntries<T>().autoNamedProperty()
         listOf(enumName, availableValues)
     }
 

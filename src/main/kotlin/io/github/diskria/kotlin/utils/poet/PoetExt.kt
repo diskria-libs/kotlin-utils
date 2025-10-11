@@ -4,7 +4,7 @@ import com.squareup.kotlinpoet.*
 import io.github.diskria.kotlin.utils.Constants
 import io.github.diskria.kotlin.utils.extensions.common.KotlinModifier
 import io.github.diskria.kotlin.utils.extensions.common.failWithDetails
-import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
+import io.github.diskria.kotlin.utils.properties.autoNamedProperty
 
 inline fun <reified T> poetProperty(property: Property<T>, isConstant: Boolean = false): PropertySpec {
     val name = property.name
@@ -29,10 +29,10 @@ inline fun <reified T> poetProperty(property: Property<T>, isConstant: Boolean =
         FLOAT -> "Lf"
         STRING -> "S"
         else -> {
-            val name by name.toAutoNamedProperty()
-            val type by type.toAutoNamedProperty()
-            val value by value.toAutoNamedProperty()
-            val clazz by clazz.toAutoNamedProperty()
+            val name by name.autoNamedProperty()
+            val type by type.autoNamedProperty()
+            val value by value.autoNamedProperty()
+            val clazz by clazz.autoNamedProperty()
             failWithDetails("Unsupported property value type", name, type, value, clazz)
         }
     }

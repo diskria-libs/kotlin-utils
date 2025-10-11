@@ -10,15 +10,15 @@ import io.github.diskria.kotlin.utils.extensions.common.modifyIf
 import io.github.diskria.kotlin.utils.extensions.common.modifyUnless
 import io.github.diskria.kotlin.utils.extensions.generics.toFlatString
 import io.github.diskria.kotlin.utils.extensions.primitives.escaped
-import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
+import io.github.diskria.kotlin.utils.properties.autoNamedProperty
 import io.github.diskria.kotlin.utils.words.StringCase
 import io.github.diskria.kotlin.utils.words.Word
 import java.io.File
 
 inline fun <reified T> String.parse(): T =
     parseOrNull() ?: failWithDetails {
-        val string by this.toAutoNamedProperty()
-        val type by T::class.toAutoNamedProperty()
+        val string by this.autoNamedProperty()
+        val type by T::class.autoNamedProperty()
         listOf(string, type)
     }
 
@@ -175,7 +175,8 @@ fun String.toBooleanOrNull(): Boolean? =
 fun String.toSemver(): Semver =
     Semver.of(this)
 
-fun String.toWord(): Word = Word(this)
+fun String.toWord(): Word =
+    Word(this)
 
 fun String.setCase(oldCase: StringCase, newCase: StringCase): String =
     oldCase.convert(this, newCase)

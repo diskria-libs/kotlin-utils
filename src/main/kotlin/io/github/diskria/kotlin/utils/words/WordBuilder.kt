@@ -2,7 +2,7 @@ package io.github.diskria.kotlin.utils.words
 
 import io.github.diskria.kotlin.utils.extensions.common.failWithDetails
 import io.github.diskria.kotlin.utils.extensions.toWord
-import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
+import io.github.diskria.kotlin.utils.properties.autoNamedProperty
 
 class WordBuilder {
 
@@ -11,8 +11,8 @@ class WordBuilder {
     fun appendChar(char: Char) {
         if (char.isWhitespace()) {
             failWithDetails("Whitespace is not allowed inside words") {
-                val char by char.toAutoNamedProperty()
-                val word by buildWord().toAutoNamedProperty()
+                val char by char.autoNamedProperty()
+                val word by buildWord().autoNamedProperty()
                 listOf(char, word)
             }
         }

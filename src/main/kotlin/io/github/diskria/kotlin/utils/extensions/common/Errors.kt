@@ -6,23 +6,23 @@ import io.github.diskria.kotlin.utils.extensions.setCase
 import io.github.diskria.kotlin.utils.extensions.toNullIfEmpty
 import io.github.diskria.kotlin.utils.extensions.wrapWithSingleQuote
 import io.github.diskria.kotlin.utils.poet.Property
-import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
+import io.github.diskria.kotlin.utils.properties.autoNamedProperty
 
 fun failWithWrongUsage(useInsteadThis: String): Nothing =
     failWithDetails("Wrong usage detected") {
-        val useInsteadThis by useInsteadThis.toAutoNamedProperty()
+        val useInsteadThis by useInsteadThis.autoNamedProperty()
         listOf(useInsteadThis)
     }
 
 fun failWithUnsupportedType(clazz: KotlinClass<*>): Nothing =
     failWithDetails("Unsupported type") {
-        val className by clazz.className().toAutoNamedProperty()
+        val className by clazz.className().autoNamedProperty()
         listOf(className)
     }
 
 fun failWithInvalidValue(value: Any?): Nothing =
     failWithDetails("Invalid value") {
-        val value by value.toAutoNamedProperty()
+        val value by value.autoNamedProperty()
         listOf(value)
     }
 

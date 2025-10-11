@@ -5,7 +5,7 @@ import io.github.diskria.kotlin.utils.extensions.common.camelCase
 import io.github.diskria.kotlin.utils.extensions.setCase
 import io.github.diskria.kotlin.utils.properties.common.AbstractAutoNamedProperty
 
-class AutoNamedEnvironmentVariable(val isRequired: Boolean = false) : AbstractAutoNamedProperty<String>() {
+class AutoNamedEnvironmentVariable(val isRequired: Boolean) : AbstractAutoNamedProperty<String>() {
 
     override fun mapToValue(propertyName: String): String {
         val variableName = propertyName.setCase(camelCase, SCREAMING_SNAKE_CASE)

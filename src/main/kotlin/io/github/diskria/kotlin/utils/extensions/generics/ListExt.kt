@@ -1,7 +1,7 @@
 package io.github.diskria.kotlin.utils.extensions.generics
 
 import io.github.diskria.kotlin.utils.extensions.common.failWithDetails
-import io.github.diskria.kotlin.utils.properties.toAutoNamedProperty
+import io.github.diskria.kotlin.utils.properties.autoNamedProperty
 
 fun <T> List<T>.takeIfExceeds(limit: Int): List<T>? =
     if (size > limit) take(size - limit)
@@ -9,13 +9,13 @@ fun <T> List<T>.takeIfExceeds(limit: Int): List<T>? =
 
 fun <T> List<T>.second(): T =
     secondOrNull() ?: failWithDetails("Can't get second element of list") {
-        val list by this.toAutoNamedProperty()
+        val list by this.autoNamedProperty()
         listOf(list)
     }
 
 fun <T> List<T>.third(): T =
     thirdOrNull() ?: failWithDetails("Can't get third element of list") {
-        val list by this.toAutoNamedProperty()
+        val list by this.autoNamedProperty()
         listOf(list)
     }
 

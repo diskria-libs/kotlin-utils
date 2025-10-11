@@ -15,7 +15,7 @@ plugins {
 
 projekt {
     description = "Reusable utility extensions for Kotlin language and libraries"
-    version = "0.5.5"
+    version = "0.6.0"
     license = MIT
 
     kotlinLibrary()

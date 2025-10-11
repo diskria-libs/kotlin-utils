@@ -12,5 +12,5 @@ class AutoNamedProperty<T>(val value: T, val case: StringCase) : AbstractAutoNam
         Property(propertyName.setCase(camelCase, case), value)
 }
 
-inline fun <reified T> T.toAutoNamedProperty(case: StringCase = camelCase): AutoNamedProperty<T> =
+inline fun <reified T> T.autoNamedProperty(case: StringCase = camelCase): AutoNamedProperty<T> =
     AutoNamedProperty(this, case)
