@@ -1,20 +1,15 @@
 [versions]
 projektor = "3.+"
-build-config = "5.6.7"
 
-kotlin = "2.2.0"
-kotlin-serialization = "1.9.0"
+kotlin = "2.2.20"
 kotlin-poet = "2.2.0"
-ktor = "3.3.0"
+ktor = "3.3.1"
 
 [plugins]
 projektor = { id = "io.github.diskria.projektor", version.ref = "projektor" }
-build-config = { id = "com.github.gmazzo.buildconfig", version.ref = "build-config" }
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
 [libraries]
-kotlin-serialization = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlin-serialization" }
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
 kotlin-poet = { group = "com.squareup", name = "kotlinpoet", version.ref = "kotlin-poet" }
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }

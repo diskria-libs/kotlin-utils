@@ -9,13 +9,13 @@ pluginManagement {
 }
 
 plugins {
-    id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
     id("io.github.diskria.projektor.settings") version "3.+"
 }
 
 projekt {
     description = "Reusable utility extensions for Kotlin language and libraries"
-    version = "0.6.0"
+    tags = setOf("utils")
+    version = "0.6.1"
     license = MIT
 
     kotlinLibrary()

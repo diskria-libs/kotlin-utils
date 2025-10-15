@@ -18,8 +18,10 @@ object Constants {
             const val GRADLE_SCRIPT = "gradle"
             const val KOTLIN_SCRIPT = "kts"
             const val TOML = "toml"
+            const val MARKDOWN = "md"
             const val TL = "tl"
             const val APK = "apk"
+            const val JAR = "jar"
 
             const val TXT = "txt"
             const val XML = "xml"
