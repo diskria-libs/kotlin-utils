@@ -25,15 +25,14 @@ fun <T> List<T>.secondOrNull(): T? =
 fun <T> List<T>.thirdOrNull(): T? =
     getOrNull(2)
 
-fun <T> MutableList<T>.modifyFirst(transform: (T) -> T) =
+inline fun <T> MutableList<T>.modifyElementAt(index: Int, transform: (T) -> T): MutableList<T> =
+    apply { set(index, transform(get(index))) }
+
+inline fun <T> MutableList<T>.modifyFirst(transform: (T) -> T): MutableList<T> =
     modifyElementAt(0, transform)
 
-fun <T> MutableList<T>.modifyLast(transform: (T) -> T) =
+inline fun <T> MutableList<T>.modifyLast(transform: (T) -> T): MutableList<T> =
     modifyElementAt(lastIndex, transform)
-
-fun <T> MutableList<T>.modifyElementAt(index: Int, transform: (T) -> T) {
-    this[index] = transform(this[index])
-}
 
 fun <T> List<T>?.toNullIfEmpty(): List<T>? =
     this?.ifEmpty { null }
