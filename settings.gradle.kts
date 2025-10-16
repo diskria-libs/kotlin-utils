@@ -1,10 +1,10 @@
-import io.github.diskria.projektor.common.licenses.MIT
+import io.github.diskria.projektor.common.licenses.LicenseType.MIT
+import io.github.diskria.projektor.common.publishing.PublishingTargetType.MAVEN_CENTRAL
 
 pluginManagement {
     repositories {
-        mavenCentral()
-        gradlePluginPortal()
         maven("https://diskria.github.io/projektor")
+        gradlePluginPortal()
     }
 }
 
@@ -13,10 +13,9 @@ plugins {
 }
 
 projekt {
-    description = "Reusable utility extensions for Kotlin language and libraries"
-    tags = setOf("utils")
-    version = "0.6.1"
+    version = "0.6.2"
     license = MIT
+    publish = MAVEN_CENTRAL
 
     kotlinLibrary()
 }

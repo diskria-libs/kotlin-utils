@@ -49,11 +49,11 @@ fun buildUrl(builder: URLBuilder.() -> Unit): String =
 
 fun buildUrl(
     host: String? = null,
-    protocol: URLProtocol? = null,
+    protocol: URLProtocol = URLProtocol.HTTPS,
     builder: URLBuilder.() -> Unit = {},
 ): String =
     buildUrl {
-        protocol?.let { this.protocol = it }
+        protocol.let { this.protocol = it }
         host?.let { this.host = it }
         builder()
     }

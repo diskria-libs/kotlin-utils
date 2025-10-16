@@ -40,17 +40,33 @@ fun File.getChecksum(algorithmName: String = "MD5"): String {
     val digest = MessageDigest.getInstance(algorithmName)
     inputStream().use { stream ->
         val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-        generateSequence { stream.readOrNull(buffer) }
-            .forEach { bytesRead -> digest.update(buffer, 0, bytesRead) }
+        generateSequence { stream.readOrNull(buffer) }.forEach { bytesRead ->
+            digest.update(buffer, 0, bytesRead)
+        }
     }
     return digest.digest().asIterable().toFlatString { byte -> byte.toHex() }
 }
 
-fun File.deleteOrThrow() {
-    if (exists() && !delete()) {
-        error("Failed to delete file: $absolutePath")
-    }
-}
-
 inline fun <T> File.ifNotExists(fallback: (File) -> T): T? =
     takeUnless { exists() }?.let(fallback)
+
+fun File.ensureDeleted(): File {
+    if (exists() && !delete()) {
+        error("Failed to delete $path")
+    }
+    return this
+}
+
+fun File.ensureDirectoryExists(): File {
+    if (!exists() && !mkdirs()) {
+        error("Failed to create directory $path")
+    }
+    return this
+}
+
+fun File.ensureFileExists(): File {
+    if (!exists() && !createNewFile()) {
+        error("Failed to create file $path")
+    }
+    return this
+}

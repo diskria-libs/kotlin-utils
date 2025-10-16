@@ -10,18 +10,20 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     env:
+      GITHUB_OWNER: ${{ github.repository_owner }}
+      GITHUB_REPO: ${{ github.event.repository.name }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      GITHUB_DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
       GPG_KEY: ${{ secrets.GPG_KEY }}
       GPG_PASSPHRASE: ${{ secrets.GPG_PASSPHRASE }}
       SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
       SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-      GITHUB_OWNER: ${{ github.repository_owner }}
-      GITHUB_REPO: ${{ github.event.repository.name }}
 
     steps:
       - uses: actions/checkout@v5
         with:
-          ref: ${{ github.event.repository.default_branch }}
-          fetch-depth: 0
+          ref: ${{ env.GITHUB_DEFAULT_BRANCH }}
+          fetch-depth: 1
       - uses: projektorlab/setup-java-temurin@25
 
       - run: ./gradlew clean releaseToMavenCentral --stacktrace
