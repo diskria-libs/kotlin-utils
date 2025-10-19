@@ -26,7 +26,9 @@ object Constants {
             const val TXT = "txt"
             const val XML = "xml"
             const val JSON = "json"
+            const val HTML = "html"
             const val PNG = "png"
+            const val SVG = "svg"
         }
     }
 

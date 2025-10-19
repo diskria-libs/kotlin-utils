@@ -47,3 +47,6 @@ inline fun <reified T> T.serialize(): String =
 @OptIn(ExperimentalSerializationApi::class)
 inline fun <reified T> File.deserialize(): T =
     jsonFor<T>().decodeFromStream(inputStream())
+
+inline fun <reified T> String.deserialize(): T =
+    jsonFor<T>().decodeFromString(this)

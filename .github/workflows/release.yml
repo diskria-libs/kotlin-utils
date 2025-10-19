@@ -26,4 +26,4 @@ jobs:
           fetch-depth: 1
       - uses: projektorlab/setup-java-temurin@25
 
-      - run: ./gradlew clean releaseToMavenCentral --stacktrace
+      - run: ./gradlew clean release --stacktrace
