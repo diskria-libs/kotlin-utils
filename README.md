@@ -1,10 +1,8 @@
 # Kotlin Utils
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.diskria/kotlin-utils.svg?label=Maven%20Central)](https://central.sonatype.com/artifact/io.github.diskria/kotlin-utils) 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+Reusable utility extensions for Kotlin language and libraries
 
-Reusable utility extensions and helper classes for Kotlin, extracted and shared from my projects.  
-This library provides small but powerful building blocks that simplify common tasks.
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.diskria/kotlin-utils.svg?label=Maven+Central&style=for-the-badge)](https://central.sonatype.com/artifact/io.github.diskria/kotlin-utils) [![License: MIT](https://img.shields.io/static/v1?message=MIT&color=yellow&label=License&style=for-the-badge)](https://spdx.org/licenses/MIT)
 
 ---
 
@@ -24,5 +22,6 @@ implementation("io.github.diskria:kotlin-utils:LATEST")
 
 ---
 
-## 📄 License
-This project is licensed under the [MIT License](LICENSE).
+## License
+
+This project is licensed under the [MIT License](https://spdx.org/licenses/MIT).
