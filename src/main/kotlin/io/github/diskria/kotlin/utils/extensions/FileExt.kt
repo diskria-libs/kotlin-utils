@@ -1,5 +1,6 @@
 package io.github.diskria.kotlin.utils.extensions
 
+import io.github.diskria.kotlin.utils.Constants
 import io.github.diskria.kotlin.utils.extensions.generics.toFlatString
 import io.github.diskria.kotlin.utils.extensions.primitives.toHex
 import java.io.File
@@ -70,3 +71,29 @@ fun File.ensureFileExists(): File {
     }
     return this
 }
+
+fun File.findUpwardsOrNull(path: String, allowHidden: Boolean = false, filter: (File) -> Boolean): File? =
+    generateSequence(absoluteFile) { it.parentFile }
+        .map { it.resolve(path) }
+        .firstOrNull { filter(it) && (allowHidden || !it.isHidden) }
+
+fun File.findDirectoryUpwards(
+    path: String,
+    allowHidden: Boolean = false,
+    onNotFound: (String) -> Nothing = { error("Directory ${it.wrapWithSingleQuote()} not found upwards") }
+): File =
+    findUpwardsOrNull(path, allowHidden) { it.isDirectory } ?: onNotFound(path)
+
+fun File.findFileUpwards(
+    path: String,
+    allowHidden: Boolean = false,
+    onNotFound: (String) -> Nothing = { error("File ${it.wrapWithSingleQuote()} not found upwards") }
+): File =
+    findUpwardsOrNull(path, allowHidden) { it.isFile } ?: onNotFound(path)
+
+fun File.listFilesWithExtension(extension: String, allowHidden: Boolean = false): List<File> =
+    absoluteFile.listFiles {
+        it.isFile &&
+                (allowHidden || !it.isHidden) &&
+                it.extension.equalsIgnoreCase(extension.removePrefix(Constants.Char.DOT))
+    }.orEmpty().toList()
