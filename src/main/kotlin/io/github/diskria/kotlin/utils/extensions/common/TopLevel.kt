@@ -2,6 +2,7 @@ package io.github.diskria.kotlin.utils.extensions.common
 
 import io.github.diskria.kotlin.utils.Constants
 import io.github.diskria.kotlin.utils.extensions.ensurePrefix
+import io.github.diskria.kotlin.utils.extensions.generics.joinToString
 import io.github.diskria.kotlin.utils.extensions.generics.toFlatString
 import io.github.diskria.kotlin.utils.extensions.primitives.toUnsignedLong
 import io.ktor.http.*
@@ -57,6 +58,9 @@ fun buildUrl(
         host?.let { this.host = it }
         builder()
     }
+
+fun buildPath(vararg segments: String): String =
+    segments.joinToString(Constants.Char.SLASH)
 
 fun KotlinClass<*>.primitiveTypeNameOrNull(): String? =
     javaPrimitiveType?.name
