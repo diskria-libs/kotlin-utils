@@ -97,3 +97,6 @@ fun File.listFilesWithExtension(extension: String, allowHidden: Boolean = false)
                 (allowHidden || !it.isHidden) &&
                 it.extension.equalsIgnoreCase(extension.removePrefix(Constants.Char.DOT))
     }.orEmpty().toList()
+
+fun File.listDirectories(allowHidden: Boolean = false): List<File> =
+    listFiles { it.isDirectory && (allowHidden || !it.isHidden) }.orEmpty().toList()
