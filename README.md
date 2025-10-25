@@ -2,7 +2,7 @@
 
 Reusable utility extensions for Kotlin language and libraries
 
-[![Maven Central](https://img.shields.io/maven-central/v/io.github.diskria/kotlin-utils.svg?label=Maven+Central&style=for-the-badge)](https://central.sonatype.com/artifact/io.github.diskria/kotlin-utils) [![License: MIT](https://img.shields.io/static/v1?message=MIT&color=yellow&label=License&style=for-the-badge)](https://spdx.org/licenses/MIT)
+[![Maven Central](https://img.shields.io/maven-central/v/io.github.diskria/kotlin-utils.svg?label=Maven+Central&style=for-the-badge)](https://central.sonatype.com/artifact/io.github.diskria/kotlin-utils) [![License: MIT](https://img.shields.io/static/v1?label=License&style=for-the-badge&message=MIT&color=yellow)](https://spdx.org/licenses/MIT)
 
 ---
 
