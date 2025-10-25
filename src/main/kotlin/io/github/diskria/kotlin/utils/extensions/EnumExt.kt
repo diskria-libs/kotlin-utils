@@ -13,3 +13,12 @@ inline fun <reified T : Enum<T>> T.previousOrSelf(): T =
 
 inline fun <reified T : Enum<T>> T.nextOrSelf(): T =
     nextOrNull() ?: this
+
+fun Enum<*>.previousEnumOrNull(): Enum<*>? =
+    entries.getOrNull(ordinal.dec())
+
+fun Enum<*>.nextEnumOrNull(): Enum<*>? =
+    entries.getOrNull(ordinal.inc())
+
+private inline val Enum<*>.entries: List<Enum<*>>
+    get() = javaClass.enumConstants.filterIsInstance<Enum<*>>()
