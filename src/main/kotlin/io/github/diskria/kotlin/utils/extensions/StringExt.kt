@@ -189,3 +189,9 @@ fun <R> String.rebuild(transform: (Char) -> R): String =
 
 fun String?.toNullIfEmpty(): String? =
     this?.ifEmpty { null }
+
+fun String.reverseSegments(char: Char): String =
+    reverseSegments(char.toString())
+
+fun String.reverseSegments(separator: String): String =
+    split(separator).reversed().joinToString(separator)
