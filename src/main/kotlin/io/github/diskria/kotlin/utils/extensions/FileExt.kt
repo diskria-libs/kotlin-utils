@@ -59,14 +59,15 @@ fun File.ensureDeleted(): File {
 }
 
 fun File.ensureDirectoryExists(): File {
-    if (!exists() && !mkdirs()) {
+    if (!isDirectory && !mkdirs()) {
         error("Failed to create directory $path")
     }
     return this
 }
 
 fun File.ensureFileExists(): File {
-    if (!exists() && !createNewFile()) {
+    parentFile.ensureDirectoryExists()
+    if (!isFile && !createNewFile()) {
         error("Failed to create file $path")
     }
     return this

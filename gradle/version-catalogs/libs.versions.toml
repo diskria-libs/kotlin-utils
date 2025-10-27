@@ -1,5 +1,5 @@
 [versions]
-projektor = "3.+"
+projektor = "4.+"
 
 kotlin = "2.2.20"
 kotlin-poet = "2.2.0"
