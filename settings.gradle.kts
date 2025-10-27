@@ -13,7 +13,7 @@ plugins {
 }
 
 projekt {
-    version = "0.7.6"
+    version = "0.7.7"
     license = MIT
     publish = setOf(MAVEN_CENTRAL)
 
