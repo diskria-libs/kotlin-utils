@@ -4,7 +4,9 @@ import io.github.diskria.kotlin.utils.extensions.generics.joinToString
 import io.github.diskria.kotlin.utils.extensions.primitives.orZero
 import io.github.diskria.kotlin.utils.extensions.primitives.positiveOrNull
 import io.github.diskria.kotlin.utils.extensions.splitToTriple
+import kotlinx.serialization.Serializable
 
+@Serializable
 data class Semver(val major: Int, val minor: Int, val patch: Int) : Comparable<Semver> {
 
     override fun compareTo(other: Semver): Int =
