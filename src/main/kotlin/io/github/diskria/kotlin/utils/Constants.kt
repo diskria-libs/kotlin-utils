@@ -54,6 +54,8 @@ object Constants {
         const val DOLLAR = '$'
 
         const val HYPHEN = '-'
+        const val EM_DASH = '—'
+        const val EN_DASH = '–'
         const val PLUS = '+'
 
         const val QUESTION_MARK = '?'
