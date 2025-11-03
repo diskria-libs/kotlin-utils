@@ -32,3 +32,9 @@ fun Int.isMinValue(): Boolean =
 
 fun Int.isMaxValue(): Boolean =
     this == Int.MAX_VALUE
+
+fun Int.isNonNegative(): Boolean =
+    !isNegative()
+
+fun Int.isNegative(): Boolean =
+    this < 0

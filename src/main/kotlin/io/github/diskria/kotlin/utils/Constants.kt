@@ -15,13 +15,15 @@ object Constants {
 
         object Extension {
             const val PROPERTIES = "properties"
-            const val GRADLE_SCRIPT = "gradle"
-            const val KOTLIN_SCRIPT = "kts"
             const val TOML = "toml"
             const val MARKDOWN = "md"
             const val TL = "tl"
             const val APK = "apk"
             const val JAR = "jar"
+            const val GRADLE_SCRIPT = "gradle"
+            const val JAVA = "java"
+            const val KOTLIN = "kt"
+            const val KOTLIN_SCRIPT = "kts"
 
             const val TXT = "txt"
             const val XML = "xml"

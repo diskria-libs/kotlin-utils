@@ -11,22 +11,19 @@ import java.util.*
 infix fun <A, B, C> Pair<A, B>.to(third: C): Triple<A, B, C> =
     Triple(first, second, third)
 
-inline fun <T> tryCatch(catchErrors: Boolean = true, block: () -> T): Boolean =
-    tryCatchOrNull(catchErrors, block) != null
-
-inline fun <T : Any> tryCatchOr(fallback: T, catchErrors: Boolean = true, block: () -> T?): T =
-    tryCatchOrNull(catchErrors, block) ?: fallback
-
-inline fun <T : Any> tryCatchOrElse(catchErrors: Boolean = true, fallback: () -> T, block: () -> T?): T =
-    tryCatchOrNull(catchErrors, block) ?: fallback()
-
-inline fun <T> tryCatchOrNull(catchErrors: Boolean = true, block: () -> T?): T? =
+inline fun <T> tryOrNull(suppressErrors: Boolean = true, block: () -> T?): T? =
     try {
         block()
     } catch (error: Throwable) {
-        if (catchErrors || error is Exception) null
+        if (suppressErrors || error is Exception) null
         else throw error
     }
+
+inline fun <T> tryCatch(catchErrors: Boolean = true, block: () -> T): Boolean =
+    tryOrNull(catchErrors, block) != null
+
+inline fun <T : Any> tryOr(fallback: T, catchErrors: Boolean = true, block: () -> T?): T =
+    tryOrNull(catchErrors, block) ?: fallback
 
 fun packIntsToLong(highInt: Int, lowInt: Int): Long =
     highInt.toUnsignedLong().shl(Int.SIZE_BITS).or(lowInt.toUnsignedLong())
@@ -45,17 +42,13 @@ fun buildString(vararg parts: Any?): String =
 fun buildEmail(localPart: String, domain: String): String =
     buildString(localPart, Constants.Char.AT_SIGN, domain)
 
-fun buildUrl(builder: URLBuilder.() -> Unit): String =
-    URLBuilder().apply(builder).buildString()
+fun buildUrl(builder: URLBuilder.() -> Unit): Url =
+    URLBuilder().apply(builder).build()
 
-fun buildUrl(
-    host: String? = null,
-    protocol: URLProtocol = URLProtocol.HTTPS,
-    builder: URLBuilder.() -> Unit = {},
-): String =
+fun buildUrl(host: String, protocol: URLProtocol = URLProtocol.HTTPS, builder: URLBuilder.() -> Unit = {}): Url =
     buildUrl {
+        this.host = host
         protocol.let { this.protocol = it }
-        host?.let { this.host = it }
         builder()
     }
 

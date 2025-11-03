@@ -173,7 +173,10 @@ fun String.toBooleanOrNull(): Boolean? =
     toBooleanStrictOrNull()
 
 fun String.toSemver(): Semver =
-    Semver.of(this)
+    Semver.parse(this)
+
+fun String.toSemverOrNull(): Semver? =
+    Semver.parseOrNull(this)
 
 fun String.toWord(): Word =
     Word(this)
