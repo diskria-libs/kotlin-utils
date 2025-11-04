@@ -1,8 +1,8 @@
 package io.github.diskria.kotlin.utils
 
 import io.github.diskria.kotlin.utils.extensions.primitives.isNonNegative
+import io.github.diskria.kotlin.utils.extensions.primitives.nonNegativeOrNull
 import io.github.diskria.kotlin.utils.extensions.primitives.orZero
-import io.github.diskria.kotlin.utils.extensions.primitives.positiveOrNull
 import io.github.diskria.kotlin.utils.extensions.splitToTripleOrNull
 import io.github.diskria.kotlin.utils.extensions.wrapWithSingleQuote
 import kotlinx.serialization.Serializable
@@ -43,6 +43,6 @@ data class Semver(val major: Int, val minor: Int, val patch: Int) : Comparable<S
         }
 
         private fun String.toSegmentOrNull(): Int? =
-            toIntOrNull()?.positiveOrNull()
+            toIntOrNull()?.nonNegativeOrNull()
     }
 }
