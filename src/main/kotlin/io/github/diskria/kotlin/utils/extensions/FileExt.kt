@@ -58,17 +58,21 @@ fun File.ensureDeleted(): File {
     return this
 }
 
-fun File.ensureDirectoryExists(): File {
-    if (!isDirectory && !mkdirs()) {
-        error("Failed to create directory $path")
+fun File.ensureDirectoryExists(onCreated: File.() -> Unit = {}): File {
+    when {
+        exists() -> require(isDirectory) { "Directory $path is a file" }
+        mkdirs() -> onCreated()
+        else -> error("Failed to create directory $path")
     }
     return this
 }
 
-fun File.ensureFileExists(): File {
+fun File.ensureFileExists(onCreated: File.() -> Unit = {}): File {
     parentFile.ensureDirectoryExists()
-    if (!isFile && !createNewFile()) {
-        error("Failed to create file $path")
+    when {
+        exists() -> require(isFile) { "File $path is a directory" }
+        createNewFile() -> onCreated()
+        else -> error("Failed to create file $path")
     }
     return this
 }
