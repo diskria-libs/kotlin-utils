@@ -2,9 +2,9 @@ package io.github.diskria.kotlin.utils.extensions.common
 
 import io.github.diskria.kotlin.utils.Constants
 import io.github.diskria.kotlin.utils.extensions.ensurePrefix
-import io.github.diskria.kotlin.utils.extensions.generics.joinToString
 import io.github.diskria.kotlin.utils.extensions.generics.toFlatString
 import io.github.diskria.kotlin.utils.extensions.primitives.toUnsignedLong
+import io.github.diskria.kotlin.utils.helpers.EmailType
 import io.ktor.http.*
 import java.util.*
 
@@ -34,6 +34,9 @@ fun generateUUID(): String =
 fun fileName(name: String, vararg extensions: String): String =
     name + extensions.asIterable().toFlatString { it.ensurePrefix(Constants.Char.DOT) }
 
+fun emptyFileName(vararg extensions: String): String =
+    fileName(Constants.Char.EMPTY, *extensions)
+
 fun buildString(vararg parts: Any?): String =
     buildString {
         append(*parts)
@@ -41,6 +44,9 @@ fun buildString(vararg parts: Any?): String =
 
 fun buildEmail(localPart: String, domain: String): String =
     buildString(localPart, Constants.Char.AT_SIGN, domain)
+
+fun buildEmail(localPart: String, type: EmailType): String =
+    buildEmail(localPart, type.domain)
 
 fun buildUrl(builder: URLBuilder.() -> Unit): Url =
     URLBuilder().apply(builder).build()
@@ -51,9 +57,6 @@ fun buildUrl(host: String, protocol: URLProtocol = URLProtocol.HTTPS, builder: U
         protocol.let { this.protocol = it }
         builder()
     }
-
-fun buildPath(vararg segments: String): String =
-    segments.joinToString(Constants.Char.SLASH)
 
 fun KotlinClass<*>.primitiveTypeNameOrNull(): String? =
     javaPrimitiveType?.name

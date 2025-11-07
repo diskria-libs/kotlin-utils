@@ -14,23 +14,23 @@ object Constants {
         }
 
         object Extension {
-            const val PROPERTIES = "properties"
+            const val JSON = "json"
+            const val XML = "xml"
             const val TOML = "toml"
             const val MARKDOWN = "md"
-            const val TL = "tl"
-            const val APK = "apk"
-            const val JAR = "jar"
-            const val GRADLE_SCRIPT = "gradle"
+            const val HTML = "html"
+            const val TXT = "txt"
+            const val PROPERTIES = "properties"
             const val JAVA = "java"
             const val KOTLIN = "kt"
+            const val SHELL_SCRIPT = "sh"
+            const val BAT_SCRIPT = "bat"
+            const val GRADLE_SCRIPT = "gradle"
             const val KOTLIN_SCRIPT = "kts"
-
-            const val TXT = "txt"
-            const val XML = "xml"
-            const val JSON = "json"
-            const val HTML = "html"
             const val PNG = "png"
             const val SVG = "svg"
+            const val JAR = "jar"
+            const val APK = "apk"
         }
     }
 
@@ -38,6 +38,8 @@ object Constants {
         const val EMPTY: String = ""
         const val SPACE = ' '
         const val NEW_LINE = '\n'
+        const val NEW_LINE_CR = '\r'
+        const val NEW_LINE_CRLF = "$NEW_LINE$NEW_LINE_CR"
         const val TAB = '\t'
 
         const val SLASH = '/'

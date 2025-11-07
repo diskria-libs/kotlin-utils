@@ -6,6 +6,9 @@ import io.github.diskria.kotlin.utils.extensions.primitives.toHex
 import java.io.File
 import java.security.MessageDigest
 
+val File.nameWithoutExtensions: String
+    get() = name.substringBefore(Constants.Char.DOT)
+
 inline fun File.readByLines(readLine: (String) -> Unit) =
     bufferedReader().useLines { lines ->
         lines.forEach { line ->
