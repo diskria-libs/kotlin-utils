@@ -80,7 +80,7 @@ inline fun <reified T> tomlFor(): Toml =
         Toml(
             inputConfig = TomlInputConfig(
                 ignoreUnknownNames = ignoreUnknownKeys,
-                ignoreDefaultValues = !encodeDefaults,
+//                ignoreDefaultValues = !encodeDefaults,
             ),
             outputConfig = TomlOutputConfig(
                 indentation = if (prettyPrint) TomlIndentation.FOUR_SPACES else TomlIndentation.NONE,
@@ -111,12 +111,12 @@ inline fun <reified T> T.serializeXmlToFile(file: File) {
 inline fun <reified T> T.serializeToXml(): String =
     xmlFor<T>().encodeToString(this)
 
-inline fun <reified T> File.deserializeXmlFromFile(): T =
-    inputStream().use { input ->
-        xmlStreaming.newReader(input).use { reader ->
-            xmlFor<T>().decodeFromReader(reader)
-        }
-    }
+//inline fun <reified T> File.deserializeXmlFromFile(): T =
+//    inputStream().use { input ->
+//        xmlStreaming.newReader(input).use { reader ->
+//            xmlFor<T>().decodeFromReader(reader)
+//        }
+//    }
 
 inline fun <reified T> String.deserializeFromXml(): T =
     xmlFor<T>().decodeFromString(this)
