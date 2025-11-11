@@ -36,3 +36,7 @@ inline fun <T> MutableList<T>.modifyLast(transform: (T) -> T): MutableList<T> =
 
 fun <T> List<T>?.toNullIfEmpty(): List<T>? =
     this?.ifEmpty { null }
+
+fun <T> MutableCollection<T>.addIfNotNull(element: T?) {
+    element?.let { add(it) }
+}

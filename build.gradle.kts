@@ -9,9 +9,7 @@ plugins {
 dependencies {
     implementation(libs.kotlin.reflect)
     implementation(libs.kotlin.poet)
-    implementation(libs.kotlin.serialization.json)
-    implementation(libs.kotlin.serialization.xml)
-    implementation(libs.kotlin.serialization.toml)
+    implementation(libs.bundles.kotlin.serialization)
     implementation(libs.bundles.ktor.client)
 }
 

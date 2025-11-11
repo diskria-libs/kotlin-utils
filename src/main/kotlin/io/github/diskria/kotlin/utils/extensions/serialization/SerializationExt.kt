@@ -19,11 +19,9 @@ import kotlinx.serialization.json.decodeFromStream
 import kotlinx.serialization.serializer
 import nl.adaptivity.xmlutil.ExperimentalXmlUtilApi
 import nl.adaptivity.xmlutil.XmlDeclMode
-import nl.adaptivity.xmlutil.newReader
 import nl.adaptivity.xmlutil.serialization.DefaultXmlSerializationPolicy
 import nl.adaptivity.xmlutil.serialization.XML
 import nl.adaptivity.xmlutil.serialization.XmlSerializationPolicy
-import nl.adaptivity.xmlutil.xmlStreaming
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.reflect.full.hasAnnotation

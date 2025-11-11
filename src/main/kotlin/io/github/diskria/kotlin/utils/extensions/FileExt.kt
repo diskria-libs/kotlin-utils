@@ -108,3 +108,9 @@ fun File.listFilesWithExtension(extension: String, allowHidden: Boolean = false)
 
 fun File.listDirectories(allowHidden: Boolean = false): List<File> =
     listFiles { it.isDirectory && (allowHidden || !it.isHidden) }.orEmpty().toList()
+
+fun File.walkDirectories(
+    direction: FileWalkDirection = FileWalkDirection.TOP_DOWN,
+    allowHidden: Boolean = false
+): Sequence<File> =
+    walk(direction).filter { it.isDirectory && (allowHidden || !it.isHidden) }

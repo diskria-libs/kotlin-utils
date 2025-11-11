@@ -35,11 +35,11 @@ fun CharSequence.getNextOrNull(fromIndex: Int): Char? =
 fun CharSequence.remove(regex: Regex): String =
     replace(regex, Constants.Char.EMPTY)
 
-fun CharSequence.splitToPair(delimiter: Char): Pair<String?, String?> =
-    split(delimiter, limit = 2).let { it.firstOrNull() to it.secondOrNull() }
+fun CharSequence.splitToPair(delimiter: Char): Pair<String, String> =
+    split(delimiter, limit = 2).let { it.first() to it.second() }
 
-fun CharSequence.splitToTriple(delimiter: Char): Triple<String?, String?, String?> =
-    split(delimiter, limit = 3).let { it.firstOrNull() to it.secondOrNull() to it.thirdOrNull() }
+fun CharSequence.splitToTriple(delimiter: Char): Triple<String, String, String> =
+    split(delimiter, limit = 3).let { it.first() to it.second() to it.third() }
 
 fun CharSequence.splitExactOrNull(delimiter: Char, size: Int): List<String>? =
     split(delimiter).takeIf { it.size == size }

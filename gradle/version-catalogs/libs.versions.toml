@@ -28,3 +28,8 @@ ktor-client = [
     "ktor-client-core",
     "ktor-client-cio",
 ]
+kotlin-serialization = [
+    "kotlin-serialization-json",
+    "kotlin-serialization-xml",
+    "kotlin-serialization-toml",
+]

@@ -2,6 +2,7 @@ package io.github.diskria.kotlin.utils
 
 import io.github.diskria.kotlin.utils.extensions.common.combineChars
 import io.github.diskria.kotlin.utils.extensions.primitives.repeat
+import io.github.diskria.kotlin.utils.extensions.wrapWithBrackets
 
 object Constants {
 
@@ -96,5 +97,10 @@ object Constants {
 
         const val HTTP_SCHEME = "http"
         const val HTTPS_SCHEME = "https"
+    }
+
+    object Json {
+         val EMPTY_ARRAY: String = Char.EMPTY.wrapWithBrackets(BracketsType.SQUARE)
+         val EMPTY_OBJECT: String = Char.EMPTY.wrapWithBrackets(BracketsType.CURLY)
     }
 }
