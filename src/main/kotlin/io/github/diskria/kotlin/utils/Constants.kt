@@ -31,6 +31,7 @@ object Constants {
             const val PNG = "png"
             const val SVG = "svg"
             const val JAR = "jar"
+            const val ZIP = "zip"
             const val APK = "apk"
         }
     }
