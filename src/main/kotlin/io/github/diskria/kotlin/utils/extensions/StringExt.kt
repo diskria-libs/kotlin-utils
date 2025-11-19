@@ -10,10 +10,12 @@ import io.github.diskria.kotlin.utils.extensions.common.modifyIf
 import io.github.diskria.kotlin.utils.extensions.common.modifyUnless
 import io.github.diskria.kotlin.utils.extensions.generics.toFlatString
 import io.github.diskria.kotlin.utils.extensions.primitives.escaped
+import io.github.diskria.kotlin.utils.extensions.primitives.toHex
 import io.github.diskria.kotlin.utils.properties.autoNamedProperty
 import io.github.diskria.kotlin.utils.words.StringCase
 import io.github.diskria.kotlin.utils.words.Word
 import java.io.File
+import java.security.MessageDigest
 
 inline fun <reified T> String.parse(): T =
     parseOrNull() ?: failWithDetails {
@@ -198,3 +200,10 @@ fun String.reverseSegments(char: Char): String =
 
 fun String.reverseSegments(separator: String): String =
     split(separator).reversed().joinToString(separator)
+
+fun String.getChecksum(algorithmName: String = "MD5"): String =
+    MessageDigest.getInstance(algorithmName)
+        .apply { update(toByteArray()) }
+        .digest()
+        .asIterable()
+        .toFlatString { it.toHex() }

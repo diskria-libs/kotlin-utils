@@ -40,16 +40,8 @@ fun File.asDirectoryOrNull(): File? =
 fun File.asDirectory(): File =
     asDirectoryOrNull() ?: error("Directory $path not exists")
 
-fun File.getChecksum(algorithmName: String = "MD5"): String {
-    val digest = MessageDigest.getInstance(algorithmName)
-    inputStream().use { stream ->
-        val buffer = ByteArray(DEFAULT_BUFFER_SIZE)
-        generateSequence { stream.readOrNull(buffer) }.forEach { bytesRead ->
-            digest.update(buffer, 0, bytesRead)
-        }
-    }
-    return digest.digest().asIterable().toFlatString { byte -> byte.toHex() }
-}
+fun File.getChecksum(algorithmName: String = "MD5"): String =
+    readText().getChecksum(algorithmName)
 
 inline fun <T> File.ifNotExists(fallback: (File) -> T): T? =
     takeUnless { exists() }?.let(fallback)
