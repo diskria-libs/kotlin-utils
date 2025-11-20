@@ -8,8 +8,11 @@ import io.github.diskria.kotlin.utils.extensions.common.failWithDetails
 import io.github.diskria.kotlin.utils.extensions.common.failWithInvalidValue
 import io.github.diskria.kotlin.utils.extensions.common.modifyIf
 import io.github.diskria.kotlin.utils.extensions.common.modifyUnless
+import io.github.diskria.kotlin.utils.extensions.generics.joinByNewLine
 import io.github.diskria.kotlin.utils.extensions.generics.toFlatString
 import io.github.diskria.kotlin.utils.extensions.primitives.escaped
+import io.github.diskria.kotlin.utils.extensions.primitives.isNegative
+import io.github.diskria.kotlin.utils.extensions.primitives.repeat
 import io.github.diskria.kotlin.utils.extensions.primitives.toHex
 import io.github.diskria.kotlin.utils.properties.autoNamedProperty
 import io.github.diskria.kotlin.utils.words.StringCase
@@ -51,7 +54,7 @@ fun String.splitBySpace(): List<String> =
     split(Constants.Char.SPACE)
 
 fun String.invertCase(): String =
-    rebuild { char ->
+    rebuildChars { char ->
         if (char.isLowerCase()) char.titlecase()
         else char.lowercaseChar()
     }
@@ -189,8 +192,11 @@ fun String.setCase(oldCase: StringCase, newCase: StringCase): String =
 fun String.splitWords(case: StringCase): List<Word> =
     case.splitWords(this)
 
-fun <R> String.rebuild(transform: (Char) -> R): String =
+fun <R> String.rebuildChars(transform: (Char) -> R): String =
     map(transform).toFlatString()
+
+fun String.rebuildLines(transform: (String) -> String): String =
+    lines().joinByNewLine(transform = transform)
 
 fun String?.toNullIfEmpty(): String? =
     this?.ifEmpty { null }
@@ -207,3 +213,32 @@ fun String.getChecksum(algorithmName: String = "MD5"): String =
         .digest()
         .asIterable()
         .toFlatString { it.toHex() }
+
+fun String.appendFollowingIndent(textToAppend: String, offset: Int = 0): String =
+    buildString {
+        val textToAppend = textToAppend.trimIndent()
+        val normalizedText = this@appendFollowingIndent.trimIndent()
+        val baseIndent = normalizedText.lineSequence()
+            .filterNot { it.isBlank() }
+            .lastOrNull()
+            ?.takeWhile { it.isWhitespace() }
+            .orEmpty()
+        val finalIndent = when {
+            offset.isNegative() -> baseIndent.dropLast(minOf(-offset, baseIndent.length))
+            else -> baseIndent + Constants.Char.SPACE.repeat(offset)
+        }
+        appendLine(normalizedText)
+        append(textToAppend.replaceIndent(finalIndent))
+    }
+
+fun String.replaceMultiLine(replacement: String, textToInsert: String): String {
+    val templateLines = lines()
+    val insertionLines = textToInsert.lines()
+    require(templateLines.size == insertionLines.size) {
+        error("Both multiline strings must have the same number of lines")
+    }
+    return templateLines.zip(insertionLines) { template, line -> template.replace(replacement, line) }.joinByNewLine()
+}
+
+fun String.trimMarginEnd(margin: String): String =
+    rebuildLines { line -> line.lastIndexOfOrNull(margin)?.let { line.take(it) } ?: line }
