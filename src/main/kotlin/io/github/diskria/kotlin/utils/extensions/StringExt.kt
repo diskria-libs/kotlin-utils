@@ -217,8 +217,8 @@ fun String.getChecksum(algorithmName: String = "MD5"): String =
 fun String.appendFollowingIndent(textToAppend: String, offset: Int = 0): String =
     buildString {
         val textToAppend = textToAppend.trimIndent()
-        val normalizedText = this@appendFollowingIndent.trimIndent()
-        val baseIndent = normalizedText.lineSequence()
+        val currentText = this@appendFollowingIndent.trimIndent()
+        val baseIndent = currentText.lineSequence()
             .filterNot { it.isBlank() }
             .lastOrNull()
             ?.takeWhile { it.isWhitespace() }
@@ -227,7 +227,7 @@ fun String.appendFollowingIndent(textToAppend: String, offset: Int = 0): String 
             offset.isNegative() -> baseIndent.dropLast(minOf(-offset, baseIndent.length))
             else -> baseIndent + Constants.Char.SPACE.repeat(offset)
         }
-        appendLine(normalizedText)
+        appendLine(currentText)
         append(textToAppend.replaceIndent(finalIndent))
     }
 

@@ -58,6 +58,7 @@ object Constants {
         const val AT_SIGN = '@'
         const val NUMBER_SIGN = '#'
         const val DOLLAR = '$'
+        const val AMPERSAND = '&'
 
         const val HYPHEN = '-'
         const val EM_DASH = '—'
