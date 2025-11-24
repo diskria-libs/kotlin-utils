@@ -9,11 +9,11 @@ import io.github.diskria.kotlin.utils.properties.autoNamedProperty
 import io.github.diskria.kotlin.utils.words.StringCase
 import kotlin.enums.enumEntries
 
-inline fun <reified T : Enum<T>> String.toEnumOrNull(): T? =
-    enumEntries<T>().firstOrNull { it.name.equalsIgnoreCase(this) }
+inline fun <reified T : Enum<T>> String.toEnumOrNull(case: StringCase = snake_case): T? =
+    enumEntries<T>().firstOrNull { it.getName(case) == this }
 
-inline fun <reified T : Enum<T>> String.toEnum(): T =
-    toEnumOrNull<T>() ?: failWithDetails("Unknown enum name") {
+inline fun <reified T : Enum<T>> String.toEnum(case: StringCase = snake_case): T =
+    toEnumOrNull<T>(case) ?: failWithDetails("Unknown enum name") {
         val enumName by this.autoNamedProperty()
         val availableValues by enumEntries<T>().autoNamedProperty()
         listOf(enumName, availableValues)

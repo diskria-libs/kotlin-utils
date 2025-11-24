@@ -8,10 +8,13 @@ import io.github.diskria.kotlin.utils.extensions.primitives.repeat
 inline fun <T, R : Any> Iterable<T>.flatMapNotNull(
     transform: (T) -> Iterable<R?>?,
 ): List<R> =
-    mapNotNull(transform).flatMap { it }.filterNotNull()
+    mapNotNull(transform).flatten().filterNotNull()
 
 fun <T> Iterable<T>.joinBySpace(transform: ((T) -> CharSequence)? = null): String =
     joinToString(separator = Constants.Char.SPACE, transform = transform)
+
+fun <T> Iterable<T>.joinByComma(transform: ((T) -> CharSequence)? = null): String =
+    joinToString(separator = Constants.Char.COMMA, transform = transform)
 
 fun <T> Iterable<T>.joinByNewLine(
     linesCount: Int = 1,
