@@ -242,3 +242,6 @@ fun String.replaceMultiLine(replacement: String, textToInsert: String): String {
 
 fun String.trimMarginEnd(margin: String): String =
     rebuildLines { line -> line.lastIndexOfOrNull(margin)?.let { line.take(it) } ?: line }
+
+fun String.trimSurrounding(char: Char): String =
+    trimStart(char).trimEnd(char)

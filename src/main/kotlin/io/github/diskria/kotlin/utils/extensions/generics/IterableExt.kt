@@ -69,6 +69,9 @@ inline fun <T, reified R> Iterable<T>.foldChain(crossinline operation: R.(T) -> 
 fun <T> Iterable<T>.indexOfFirstOrNull(predicate: (T) -> Boolean): Int? =
     indexOfFirst { predicate(it) }.nonNegativeOrNull()
 
+fun <T> Iterable<T>.indexOfLastOrNull(predicate: (T) -> Boolean): Int? =
+    indexOfLast { predicate(it) }.nonNegativeOrNull()
+
 inline fun <T> List<T>.forEachWindow(
     crossinline action: (
         prev: () -> T?,

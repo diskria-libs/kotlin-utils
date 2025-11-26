@@ -3,7 +3,7 @@ package io.github.diskria.kotlin.utils.extensions.primitives
 import io.github.diskria.kotlin.utils.Constants
 import io.github.diskria.kotlin.utils.EscapeMode
 import io.github.diskria.kotlin.utils.extensions.appendPrefix
-import io.github.diskria.kotlin.utils.extensions.common.mapIfAnyOf
+import io.github.diskria.kotlin.utils.extensions.common.remapIfAnyOf
 import io.github.diskria.kotlin.utils.extensions.regexEscaped
 import io.github.diskria.kotlin.utils.extensions.wrap
 import io.github.diskria.kotlin.utils.extensions.wrapWithSpace
@@ -13,7 +13,7 @@ fun Char.escaped(escapeMode: EscapeMode?): String =
         EscapeMode.REGEX -> regexEscaped()
 
         EscapeMode.REGEX_CHARACTER_CLASS -> {
-            mapIfAnyOf(
+            remapIfAnyOf(
                 Constants.Char.BACK_SLASH,
                 Constants.Char.CARET,
                 Constants.Char.HYPHEN,

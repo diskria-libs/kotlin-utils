@@ -10,7 +10,7 @@ fun <T : Any> KotlinClass<T>.sealedObjectsRecursive(): List<T> =
     sealedSubclassesRecursive().mapNotNull { it.objectInstance }
 
 inline fun <T> T.modify(block: (T) -> T): T =
-    map(block)
+    remap(block)
 
 inline fun <T> T.modifyIf(condition: Boolean, block: (T) -> T): T =
     if (condition) modify(block)
@@ -36,18 +36,18 @@ fun <T> T.isAnyOf(vararg candidates: T): Boolean =
 fun <T> T.isNoneOf(vararg candidates: T): Boolean =
     candidates.all { this != it }
 
-inline fun <T, R> T.map(block: (T) -> R): R =
+inline fun <T, R> T.remap(block: (T) -> R): R =
     block(this)
 
-inline fun <T, R> T.mapIf(condition: Boolean, elseValue: R, block: (T) -> R): R =
-    if (condition) map(block)
+inline fun <T, R> T.remapIf(condition: Boolean, elseValue: R, block: (T) -> R): R =
+    if (condition) remap(block)
     else elseValue
 
-inline fun <T, R> T.mapUnless(condition: Boolean, elseValue: R, block: (T) -> R): R =
-    mapIf(!condition, elseValue, block)
+inline fun <T, R> T.remapUnless(condition: Boolean, elseValue: R, block: (T) -> R): R =
+    remapIf(!condition, elseValue, block)
 
-inline fun <T, R> T.mapIfAnyOf(vararg candidates: T, elseValue: R, block: (T) -> R): R =
-    mapIf(isAnyOf(*candidates), elseValue, block)
+inline fun <T, R> T.remapIfAnyOf(vararg candidates: T, elseValue: R, block: (T) -> R): R =
+    remapIf(isAnyOf(*candidates), elseValue, block)
 
 fun Any.toPrimitiveClassOrNull(): KotlinClass<*>? =
     when (this) {
