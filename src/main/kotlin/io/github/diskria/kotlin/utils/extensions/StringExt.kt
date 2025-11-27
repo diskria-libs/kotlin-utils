@@ -73,7 +73,7 @@ fun String.wrapWithBrackets(
     if (bracketsType == null) {
         return this
     }
-    return ensureSurrounding(
+    return surround(
         prefix = bracketsType.openingChar.escaped(escapeMode).repeat(count),
         suffix = bracketsType.closingChar.escaped(escapeMode).repeat(count)
     )
