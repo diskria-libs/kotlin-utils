@@ -1,10 +1,7 @@
 package io.github.diskria.kotlin.utils.extensions
 
 import io.github.diskria.kotlin.utils.Constants
-import io.github.diskria.kotlin.utils.extensions.generics.toFlatString
-import io.github.diskria.kotlin.utils.extensions.primitives.toHex
 import java.io.File
-import java.security.MessageDigest
 
 val File.nameWithoutExtensions: String
     get() = name.substringBefore(Constants.Char.DOT)
@@ -106,3 +103,14 @@ fun File.walkDirectories(
     allowHidden: Boolean = false
 ): Sequence<File> =
     walk(direction).filter { it.isDirectory && (allowHidden || !it.isHidden) }
+
+fun File.walkFilesWithExtension(
+    direction: FileWalkDirection = FileWalkDirection.TOP_DOWN,
+    extension: String,
+    allowHidden: Boolean = false
+): Sequence<File> =
+    walk(direction).filter {
+        it.isFile &&
+                (allowHidden || !it.isHidden) &&
+                it.extension.equalsIgnoreCase(extension.removePrefix(Constants.Char.DOT))
+    }
