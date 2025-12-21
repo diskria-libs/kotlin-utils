@@ -41,7 +41,8 @@ object Constants {
         const val SPACE = ' '
         const val NEW_LINE = '\n'
         const val NEW_LINE_CR = '\r'
-        const val NEW_LINE_CRLF = "$NEW_LINE$NEW_LINE_CR"
+        const val NEW_LINE_LF = NEW_LINE
+        const val NEW_LINE_CRLF = "$NEW_LINE_LF$NEW_LINE_CR"
         const val TAB = '\t'
 
         const val SLASH = '/'

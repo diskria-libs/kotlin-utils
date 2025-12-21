@@ -51,3 +51,6 @@ fun Char.wrapWithSpace(count: Int = 1): String =
 
 fun Char.regexEscaped(): String =
     toString().regexEscaped()
+
+fun Char.isIndentChar(): Boolean =
+    this == Constants.Char.SPACE || this == Constants.Char.TAB

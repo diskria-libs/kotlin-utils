@@ -10,10 +10,7 @@ import io.github.diskria.kotlin.utils.extensions.common.modifyIf
 import io.github.diskria.kotlin.utils.extensions.common.modifyUnless
 import io.github.diskria.kotlin.utils.extensions.generics.joinByNewLine
 import io.github.diskria.kotlin.utils.extensions.generics.toFlatString
-import io.github.diskria.kotlin.utils.extensions.primitives.escaped
-import io.github.diskria.kotlin.utils.extensions.primitives.isNegative
-import io.github.diskria.kotlin.utils.extensions.primitives.repeat
-import io.github.diskria.kotlin.utils.extensions.primitives.toHex
+import io.github.diskria.kotlin.utils.extensions.primitives.*
 import io.github.diskria.kotlin.utils.properties.autoNamedProperty
 import io.github.diskria.kotlin.utils.words.StringCase
 import io.github.diskria.kotlin.utils.words.Word
@@ -245,3 +242,13 @@ fun String.trimMarginEnd(margin: String): String =
 
 fun String.trimSurrounding(char: Char): String =
     trimStart(char).trimEnd(char)
+
+fun String.singleLineIndentSize(tabSize: Int = 4): Int {
+    require(!contains(Constants.Char.NEW_LINE_LF) && !contains(Constants.Char.NEW_LINE_CR)) {
+        "Expected single-line string."
+    }
+    return takeWhile { it.isIndentChar() }.sumOf {
+        if (it == Constants.Char.TAB) tabSize
+        else 1
+    }
+}
