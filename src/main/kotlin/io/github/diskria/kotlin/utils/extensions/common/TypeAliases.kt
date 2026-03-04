@@ -2,16 +2,7 @@
 
 package io.github.diskria.kotlin.utils.extensions.common
 
-import com.squareup.kotlinpoet.KModifier
 import io.github.diskria.kotlin.utils.words.*
-import kotlinx.serialization.KSerializer
-import kotlin.reflect.KClass
-import kotlin.reflect.KProperty
-
-typealias KotlinClass<T> = KClass<T>
-typealias KotlinProperty<T> = KProperty<T>
-typealias KotlinSerializer<T> = KSerializer<T>
-typealias KotlinModifier = KModifier
 
 typealias camelCase = CamelCase
 typealias `COBOL-CASE` = CobolCase

@@ -7,6 +7,7 @@ import io.github.diskria.kotlin.utils.extensions.primitives.toUnsignedLong
 import io.github.diskria.kotlin.utils.helpers.EmailType
 import io.ktor.http.*
 import java.util.*
+import kotlin.reflect.KClass
 
 infix fun <A, B, C> Pair<A, B>.to(third: C): Triple<A, B, C> =
     Triple(first, second, third)
@@ -58,7 +59,7 @@ fun buildUrl(host: String, protocol: URLProtocol = URLProtocol.HTTPS, builder: U
         builder()
     }
 
-fun KotlinClass<*>.primitiveTypeNameOrNull(): String? =
+fun KClass<*>.primitiveTypeNameOrNull(): String? =
     javaPrimitiveType?.name
 
 fun nowDate(): Date =

@@ -5,7 +5,6 @@ import com.akuleshov7.ktoml.TomlIndentation
 import com.akuleshov7.ktoml.TomlInputConfig
 import com.akuleshov7.ktoml.TomlOutputConfig
 import io.github.diskria.kotlin.utils.Constants
-import io.github.diskria.kotlin.utils.extensions.common.KotlinClass
 import io.github.diskria.kotlin.utils.extensions.primitives.repeat
 import io.github.diskria.kotlin.utils.serialization.annotations.EncodeDefaults
 import io.github.diskria.kotlin.utils.serialization.annotations.ExplicitNulls
@@ -24,11 +23,12 @@ import nl.adaptivity.xmlutil.serialization.XML
 import nl.adaptivity.xmlutil.serialization.XmlSerializationPolicy
 import java.io.File
 import java.util.concurrent.ConcurrentHashMap
+import kotlin.reflect.KClass
 import kotlin.reflect.full.hasAnnotation
 
-val jsonCache: MutableMap<KotlinClass<*>, Json> by lazy { ConcurrentHashMap() }
-val xmlCache: MutableMap<KotlinClass<*>, XML> by lazy { ConcurrentHashMap() }
-val tomlCache: MutableMap<KotlinClass<*>, Toml> by lazy { ConcurrentHashMap() }
+val jsonCache: MutableMap<KClass<*>, Json> by lazy { ConcurrentHashMap() }
+val xmlCache: MutableMap<KClass<*>, XML> by lazy { ConcurrentHashMap() }
+val tomlCache: MutableMap<KClass<*>, Toml> by lazy { ConcurrentHashMap() }
 
 inline fun <reified T> jsonFor(): Json =
     jsonCache.computeIfAbsent(T::class) {

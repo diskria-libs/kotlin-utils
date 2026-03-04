@@ -1,4 +1,4 @@
-package io.github.diskria.kotlin.utils.poet
+package io.github.diskria.kotlin.utils
 
 open class Property<out T>(val name: String, val value: T) {
 

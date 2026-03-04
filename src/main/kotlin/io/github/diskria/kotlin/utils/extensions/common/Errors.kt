@@ -1,12 +1,13 @@
 package io.github.diskria.kotlin.utils.extensions.common
 
 import io.github.diskria.kotlin.utils.Constants
+import io.github.diskria.kotlin.utils.Property
 import io.github.diskria.kotlin.utils.extensions.primitives.wrapWithSpace
 import io.github.diskria.kotlin.utils.extensions.setCase
 import io.github.diskria.kotlin.utils.extensions.toNullIfEmpty
 import io.github.diskria.kotlin.utils.extensions.wrapWithSingleQuote
-import io.github.diskria.kotlin.utils.poet.Property
 import io.github.diskria.kotlin.utils.properties.autoNamedProperty
+import kotlin.reflect.KClass
 
 fun failWithWrongUsage(useInsteadThis: String): Nothing =
     failWithDetails("Wrong usage detected") {
@@ -14,7 +15,7 @@ fun failWithWrongUsage(useInsteadThis: String): Nothing =
         listOf(useInsteadThis)
     }
 
-fun failWithUnsupportedType(clazz: KotlinClass<*>): Nothing =
+fun failWithUnsupportedType(clazz: KClass<*>): Nothing =
     failWithDetails("Unsupported type") {
         val className by clazz.className().autoNamedProperty()
         listOf(className)

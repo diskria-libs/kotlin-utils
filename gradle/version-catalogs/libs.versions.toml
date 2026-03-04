@@ -1,12 +1,11 @@
 [versions]
-projektor = "4.+"
+projektor = "5.+"
 
-kotlin = "2.0.21"
-kotlin-serialization-json = "1.7.3"
-kotlin-serialization-toml = "0.5.2"
-kotlin-serialization-xml = "0.90.1"
-ktor = "3.0.0"
-kotlin-poet = "2.2.0"
+kotlin = "2.2.21"
+kotlin-serialization-json = "1.10.0"
+kotlin-serialization-toml = "0.7.1"
+kotlin-serialization-xml = "0.91.3"
+ktor = "3.4.0"
 
 [plugins]
 projektor = { id = "io.github.diskria.projektor", version.ref = "projektor" }
@@ -14,7 +13,6 @@ kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 [libraries]
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
-kotlin-poet = { group = "com.squareup", name = "kotlinpoet", version.ref = "kotlin-poet" }
 
 kotlin-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json-jvm", version.ref = "kotlin-serialization-json" }
 kotlin-serialization-xml = { group = "io.github.pdvrieze.xmlutil", name = "serialization", version.ref = "kotlin-serialization-xml" }

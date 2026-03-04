@@ -1,8 +1,8 @@
 package io.github.diskria.kotlin.utils.properties
 
+import io.github.diskria.kotlin.utils.Property
 import io.github.diskria.kotlin.utils.extensions.common.camelCase
 import io.github.diskria.kotlin.utils.extensions.setCase
-import io.github.diskria.kotlin.utils.poet.Property
 import io.github.diskria.kotlin.utils.properties.common.AbstractAutoNamedProperty
 import io.github.diskria.kotlin.utils.words.StringCase
 

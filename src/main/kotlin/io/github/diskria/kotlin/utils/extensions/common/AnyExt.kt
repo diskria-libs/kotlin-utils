@@ -1,12 +1,14 @@
 package io.github.diskria.kotlin.utils.extensions.common
 
-fun KotlinClass<*>.className(): String =
+import kotlin.reflect.KClass
+
+fun KClass<*>.className(): String =
     simpleName ?: failWithUnsupportedType(this)
 
-fun <T : Any> KotlinClass<T>.sealedSubclassesRecursive(): List<KotlinClass<out T>> =
-    flattenTree<KotlinClass<out T>> { it.sealedSubclasses }
+fun <T : Any> KClass<T>.sealedSubclassesRecursive(): List<KClass<out T>> =
+    flattenTree<KClass<out T>> { it.sealedSubclasses }
 
-fun <T : Any> KotlinClass<T>.sealedObjectsRecursive(): List<T> =
+fun <T : Any> KClass<T>.sealedObjectsRecursive(): List<T> =
     sealedSubclassesRecursive().mapNotNull { it.objectInstance }
 
 inline fun <T> T.modify(block: (T) -> T): T =
@@ -48,17 +50,3 @@ inline fun <T, R> T.remapUnless(condition: Boolean, elseValue: R, block: (T) -> 
 
 inline fun <T, R> T.remapIfAnyOf(vararg candidates: T, elseValue: R, block: (T) -> R): R =
     remapIf(isAnyOf(*candidates), elseValue, block)
-
-fun Any.toPrimitiveClassOrNull(): KotlinClass<*>? =
-    when (this) {
-        is Boolean -> Boolean::class
-        is Int -> Int::class
-        is Long -> Long::class
-        is Float -> Float::class
-        is Double -> Double::class
-        is Char -> Char::class
-        else -> null
-    }
-
-fun Any.primitiveTypeNameOrNull(): String? =
-    toPrimitiveClassOrNull()?.primitiveTypeNameOrNull()
