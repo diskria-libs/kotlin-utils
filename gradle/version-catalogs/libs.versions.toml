@@ -1,15 +1,14 @@
 [versions]
-projektor = "5.+"
+projektor = "6.+"
 
-kotlin = "2.2.21"
+kotlin = "2.3.0"
 kotlin-serialization-json = "1.10.0"
 kotlin-serialization-toml = "0.7.1"
 kotlin-serialization-xml = "0.91.3"
-ktor = "3.4.0"
+ktor = "3.4.2"
 
 [plugins]
 projektor = { id = "io.github.diskria.projektor", version.ref = "projektor" }
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 
 [libraries]
 kotlin-reflect = { group = "org.jetbrains.kotlin", name = "kotlin-reflect", version.ref = "kotlin" }
